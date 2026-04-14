@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compass AI — Responsible AI Governance</title>
+<meta name="description" content="Understand your AI governance obligations and responsibilities. Get a personalized governance profile across transparency, fairness, accountability, privacy, and robustness.">
+<meta property="og:title" content="Compass AI — Responsible AI Governance Assessment">
+<meta property="og:description" content="A governance profile built around responsible AI principles — not just compliance.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0d1426;
+  --navy-mid: #1b2651;
+  --navy-card: rgba(20,30,65,0.65);
+  --gold: #c4a55a;
+  --gold-light: #dfc080;
+  --gold-pale: rgba(196,165,90,0.1);
+  --text: #eeeaf5;
+  --muted: #9490b2;
+  --dim: #5e5a7a;
+  --border: rgba(196,165,90,0.16);
+  --green: #2e7d32;
+  --green-bg: rgba(46,125,50,0.12);
+  --green-border: rgba(46,125,50,0.35);
+  --amber: #b45309;
+  --amber-bg: rgba(180,83,9,0.12);
+  --amber-border: rgba(180,83,9,0.35);
+  --red: #991b1b;
+  --red-bg: rgba(153,27,27,0.12);
+  --red-border: rgba(153,27,27,0.35);
+}
+html { background: var(--navy); }
+body {
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(ellipse at 10% 5%, rgba(196,165,90,0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at 90% 95%, rgba(30,45,90,0.7) 0%, transparent 50%),
+    var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+}
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.card {
+  background: var(--navy-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(18px);
+  width: 100%;
+  max-width: 720px;
+  padding: 3rem 3.5rem;
+  animation: fadeUp 0.4s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.logo-wrap { display: flex; justify-content: center; margin-bottom: 2.5rem; }
+.logo-wrap img { height: 80px; width: auto; object-fit: contain; }
+.headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+.headline em { font-style: italic; color: var(--gold-light); }
+.body-text { font-size: 0.92rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; font-weight: 300; }
+.body-text strong { color: var(--text); font-weight: 500; }
+.gold-rule { width: 48px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin: 1.5rem 0; }
+.divider { height: 1px; background: rgba(196,165,90,0.1); margin: 1.75rem 0; }
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), #a8893f);
+  color: #0d1426;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 2.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.btn-primary:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(196,165,90,0.22);
+  border-radius: 8px;
+  padding: 0.9rem 1.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Progress */
+.progress-wrap { margin-bottom: 2.25rem; }
+.progress-meta { display: flex; justify-content: space-between; margin-bottom: 0.55rem; }
+.progress-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); font-weight: 500; }
+.progress-bar { height: 2px; background: rgba(196,165,90,0.1); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.4s ease; }
+
+/* Question */
+.q-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem; font-weight: 600; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 400; line-height: 1.35; margin-bottom: 0.4rem; }
+.multi-hint { font-size: 0.75rem; color: var(--dim); margin-bottom: 1.1rem; font-style: italic; }
+.options { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.75rem; }
+.option {
+  padding: 0.75rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(196,165,90,0.13);
+  background: rgba(196,165,90,0.02);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.87rem;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.4;
+}
+.option:hover { border-color: rgba(196,165,90,0.38); color: var(--text); background: rgba(196,165,90,0.05); }
+.option.selected { border-color: var(--gold); background: var(--gold-pale); color: var(--text); }
+.nav-row { display: flex; justify-content: space-between; align-items: center; }
+.error-msg { background: rgba(153,27,27,0.1); border: 1px solid rgba(239,68,68,0.22); border-radius: 8px; padding: 0.8rem 1rem; color: #fca5a5; font-size: 0.83rem; margin-bottom: 1.25rem; }
+
+/* Free text fields */
+.field-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; display: block; }
+.field-hint { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.65rem; font-style: italic; }
+textarea {
+  width: 100%;
+  background: rgba(196,165,90,0.03);
+  border: 1px solid rgba(196,165,90,0.18);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 90px;
+  transition: border-color 0.2s;
+  margin-bottom: 1.25rem;
+}
+textarea:focus { outline: none; border-color: rgba(196,165,90,0.45); }
+textarea::placeholder { color: var(--dim); }
+
+/* Loading */
+.loading-center { text-align: center; padding: 2rem 0 1rem; }
+.spinner-ring {
+  width: 56px; height: 56px;
+  border: 2px solid rgba(196,165,90,0.12);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 2rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-headline { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 0.5rem; }
+.loading-sub { font-size: 0.82rem; color: var(--muted); font-weight: 300; min-height: 1.4em; transition: opacity 0.3s; }
+
+/* Results */
+.org-summary {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.85rem;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid;
+  margin-bottom: 1rem;
+}
+.results-headline { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.2; }
+.results-headline em { font-style: italic; color: var(--gold-light); }
+
+/* Immediate actions */
+.immediate-wrap { margin: 1.5rem 0; }
+.immediate-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); font-weight: 700; margin-bottom: 0.75rem; }
+.immediate-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(196,165,90,0.05);
+  border: 1px solid rgba(196,165,90,0.15);
+  margin-bottom: 0.45rem;
+  font-size: 0.86rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.immediate-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+/* Pillars accordion */
+.pillars { display: flex; flex-direction: column; gap: 0.5rem; margin: 1.5rem 0; }
+.pillar {
+  border-radius: 10px;
+  border: 1px solid rgba(196,165,90,0.14);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.pillar.open { border-color: rgba(196,165,90,0.28); }
+.pillar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: rgba(196,165,90,0.02);
+  transition: background 0.15s;
+  gap: 1rem;
+}
+.pillar-header:hover { background: rgba(196,165,90,0.05); }
+.pillar-header-left { display: flex; align-items: center; gap: 0.85rem; flex: 1; min-width: 0; }
+.maturity-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.maturity-dot.needs_attention { background: var(--red); box-shadow: 0 0 6px rgba(153,27,27,0.5); }
+.maturity-dot.developing { background: var(--amber); box-shadow: 0 0 6px rgba(180,83,9,0.5); }
+.maturity-dot.strong { background: var(--green); box-shadow: 0 0 6px rgba(46,125,50,0.5); }
+.pillar-name { font-size: 0.84rem; font-weight: 600; color: var(--text); }
+.pillar-verdict-preview {
+  font-size: 0.76rem;
+  color: var(--dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+.chevron {
+  color: var(--dim);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.pillar.open .chevron { transform: rotate(180deg); }
+
+.pillar-body {
+  display: none;
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid rgba(196,165,90,0.08);
+}
+.pillar.open .pillar-body { display: block; }
+
+.verdict-box {
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid;
+  margin: 1rem 0;
+  font-size: 0.87rem;
+  line-height: 1.65;
+  font-weight: 400;
+}
+.verdict-box.needs_attention { background: var(--red-bg); border-color: var(--red-border); color: #fca5a5; }
+.verdict-box.developing { background: var(--amber-bg); border-color: var(--amber-border); color: #fcd34d; }
+.verdict-box.strong { background: var(--green-bg); border-color: var(--green-border); color: #86efac; }
+
+.pillar-section-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 700;
+  margin: 1.1rem 0 0.55rem;
+}
+.rec-list, .step-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.rec-item, .step-item {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.6;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(196,165,90,0.02);
+}
+.step-item { background: rgba(20,30,65,0.4); border-left: 2px solid rgba(196,165,90,0.3); border-radius: 0 6px 6px 0; }
+.rec-bullet { color: var(--gold); font-size: 0.7rem; margin-top: 0.35rem; flex-shrink: 0; }
+.step-num { color: var(--gold); font-size: 0.68rem; font-weight: 700; min-width: 16px; margin-top: 0.2rem; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+/* Framework bubbles */
+.frameworks { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; }
+.fw-bubble {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(196,165,90,0.05);
+  border: 1px solid rgba(196,165,90,0.18);
+  font-size: 0.75rem;
+  max-width: 100%;
+}
+.fw-name { font-weight: 600; color: var(--gold); margin-bottom: 0.2rem; }
+.fw-note { color: var(--dim); line-height: 1.5; font-size: 0.73rem; }
+
+/* Jurisdictional note */
+.juris-section { margin: 1rem 0; }
+.juris-item { margin-bottom: 0.75rem; }
+.juris-jurisdiction { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.25rem; }
+.juris-note { font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+/* Consult box */
+.consult-box {
+  background: linear-gradient(135deg, rgba(196,165,90,0.07), rgba(20,30,65,0.4));
+  border: 1px solid rgba(196,165,90,0.28);
+  border-radius: 12px;
+  padding: 1.5rem 1.6rem;
+  margin-top: 1.75rem;
+}
+.consult-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+.consult-body { font-size: 0.83rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; font-weight: 300; }
+.consult-name { font-size: 0.87rem; color: var(--text); font-weight: 600; margin-bottom: 0.2rem; }
+.consult-email a { font-size: 0.84rem; color: var(--gold); text-decoration: none; }
+.consult-email a:hover { text-decoration: underline; }
+
+.action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
+
+.disclaimer {
+  font-size: 0.73rem;
+  color: var(--dim);
+  font-style: italic;
+  line-height: 1.6;
+  border-left: 2px solid rgba(196,165,90,0.2);
+  padding-left: 0.75rem;
+  margin: 1rem 0;
+}
+
+/* Print */
+@media print {
+  body, .app { background: white !important; }
+  .app { padding: 0 !important; justify-content: flex-start !important; }
+  .card { background: white !important; border: none !important; border-radius: 0 !important; max-width: 100% !important; padding: 1.75rem 2.25rem !important; box-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
+  .action-row, .screen-only { display: none !important; }
+  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding-bottom: 1.25rem; margin-bottom: 1.75rem; border-bottom: 2px solid #c4a55a; }
+  .print-logo { height: 52px !important; width: auto; }
+  .print-meta { text-align: right; font-size: 0.72rem; color: #555; line-height: 1.7; }
+  .print-meta strong { color: #0d1426; display: block; }
+  .pillar-body { display: block !important; }
+  .pillar-header { cursor: default; }
+  .chevron { display: none; }
+  .headline, .results-headline, .consult-title { color: #0d1426 !important; }
+  .headline em, .results-headline em { color: #a8893f !important; }
+  .org-summary, .body-text, .consult-body, .juris-note, .rec-item, .step-item { color: #374151 !important; }
+  .muted { color: #6b7280 !important; }
+  .fw-bubble { background: #f9f7f1 !important; border-color: #e5dcc5 !important; }
+  .fw-note { color: #6b7280 !important; }
+  .verdict-box.needs_attention { background: #fef2f2 !important; border-color: #fca5a5 !important; color: #991b1b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .verdict-box.developing { background: #fffbeb !important; border-color: #fcd34d !important; color: #92400e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .verdict-box.strong { background: #f0fdf4 !important; border-color: #86efac !important; color: #166534 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .maturity-dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .consult-box { background: #f9f7f1 !important; border-color: #e5dcc5 !important; }
+  .step-item { border-left-color: #c4a55a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pillar { border-color: #e5dcc5 !important; page-break-inside: avoid; }
+  .divider { background: #e5dcc5 !important; }
+}
+.print-header { display: none; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- INTRO -->
+  <div class="card" id="screen-intro">
+    <div class="logo-wrap">
+      <img src="/logo.png" alt="Compass AI" onerror="this.style.display='none'">
+    </div>
+    <h1 class="headline">Responsible AI starts with <em>knowing where you stand.</em></h1>
+    <div class="gold-rule"></div>
+    <p class="body-text">
+      AI governance is not just a legal obligation. It is a commitment to the people your organization serves. <strong>Compass helps you understand your posture across the principles that matter most: transparency, fairness, accountability, privacy, and robustness.</strong>
+    </p>
+    <p class="body-text">
+      Answer a short assessment about your organization and how you use AI. You will receive a personalized governance profile — with specific guidance, concrete next steps, and the regulatory context that applies to your situation.
+    </p>
+    <button class="btn-primary" onclick="startAssessment()">Begin Assessment</button>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="card" id="screen-questions" style="display:none;">
+    <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
+      <img src="/logo.png" alt="Compass AI" style="height:56px;" onerror="this.style.display='none'">
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label">Assessment Progress</span>
+        <span class="progress-label" id="q-counter">1 of 12</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:8%"></div></div>
+    </div>
+    <div id="error-msg" class="error-msg" style="display:none;"></div>
+    <div class="q-label" id="q-label">Question 1</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="multi-hint" id="multi-hint" style="display:none;">Select all that apply.</div>
+    <div class="options" id="options-list"></div>
+    <div class="nav-row">
+      <button class="btn-ghost" id="btn-back" onclick="prevQuestion()" style="visibility:hidden;">Back</button>
+      <button class="btn-primary" id="btn-next" onclick="nextQuestion()" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- FREE TEXT -->
+  <div class="card" id="screen-freetext" style="display:none;">
+    <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
+      <img src="/logo.png" alt="Compass AI" style="height:56px;" onerror="this.style.display='none'">
+    </div>
+    <div class="q-label">Final Step</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:400;margin-bottom:0.4rem;line-height:1.35;">Help us understand your situation.</h2>
+    <p class="body-text" style="margin-bottom:1.5rem;">These fields are optional but significantly improve the specificity of your governance profile.</p>
+
+    <label class="field-label" for="use-case">Describe your AI use case</label>
+    <p class="field-hint">What does the AI tool do? Who does it affect?</p>
+    <textarea id="use-case" placeholder="e.g. We use an AI tool that transcribes psychiatric sessions and generates clinical notes and insurance pre-authorization recommendations."></textarea>
+
+    <label class="field-label" for="problem">What problem are you trying to solve?</label>
+    <p class="field-hint">Why are you using AI? What outcome are you hoping for?</p>
+    <textarea id="problem" placeholder="e.g. We want to reduce administrative burden on clinicians so they can spend more time with patients."></textarea>
+
+    <div class="nav-row">
+      <button class="btn-ghost" onclick="showQuestions()">Back</button>
+      <button class="btn-primary" onclick="submitAssessment()">Generate My Profile</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="card" id="screen-loading" style="display:none;">
+    <div class="logo-wrap"><img src="/logo.png" alt="Compass AI" onerror="this.style.display='none'"></div>
+    <div class="loading-center">
+      <div class="spinner-ring"></div>
+      <div class="loading-headline">Analyzing your governance profile</div>
+      <div class="loading-sub" id="loading-sub">Reviewing your assessment answers...</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card" id="screen-results" style="display:none;">
+
+    <!-- Print header (hidden on screen) -->
+    <div class="print-header">
+      <img src="/logo.png" alt="Compass AI" class="print-logo" onerror="this.style.display='none'">
+      <div class="print-meta">
+        <strong>Compass AI Governance Profile</strong>
+        Prepared by Ryan Vasquez<br>
+        AI Governance Consultant<br>
+        vasquezryanj@gmail.com<br>
+        <span id="print-date"></span>
+      </div>
+    </div>
+
+    <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
+      <img src="/logo.png" alt="Compass AI" style="height:60px;" onerror="this.style.display='none'">
+    </div>
+
+    <div id="risk-badge" class="risk-badge"></div>
+    <h2 class="results-headline">Your <em>Governance</em> Profile</h2>
+    <div class="gold-rule"></div>
+
+    <p class="disclaimer">This profile is generated for informational purposes only and does not constitute legal advice. Consult a qualified attorney or compliance professional before making governance decisions.</p>
+
+    <div class="divider"></div>
+
+    <div class="q-label" style="margin-bottom:0.6rem;">About Your Organization</div>
+    <p class="org-summary" id="org-summary"></p>
+
+    <div class="divider"></div>
+
+    <div class="immediate-wrap">
+      <div class="immediate-label">Start Here — Immediate Priorities</div>
+      <div id="immediate-list"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="q-label" style="margin-bottom:0.75rem;">Governance Profile by Pillar</div>
+    <div class="pillars" id="pillars-list"></div>
+
+    <div class="divider"></div>
+
+    <div class="q-label" style="margin-bottom:0.6rem;">Jurisdictional Context</div>
+    <div class="juris-section" id="juris-section"></div>
+
+    <div class="consult-box">
+      <div class="consult-title">Take the next step with expert guidance.</div>
+      <p class="consult-body">This profile gives you a clear picture of where your organization stands. Translating it into a governance program that actually protects your organization and the people you serve takes expertise. Ryan Vasquez is an AI governance consultant specializing in responsible AI integration, regulatory compliance, and ethical AI frameworks.</p>
+      <div class="consult-name">Ryan Vasquez, AI Governance Consultant</div>
+      <div class="consult-email"><a href="mailto:vasquezryanj@gmail.com">vasquezryanj@gmail.com</a></div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Save as PDF</button>
+      <button class="btn-ghost" onclick="restart()">Start Over</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  { id:"geography", text:"Where does your organization primarily operate?", type:"multi", options:["United States","European Union","United Kingdom","Canada","China","Global / Multiple Regions","Other"] },
+  { id:"size", text:"What is your organization's size?", type:"single", options:["Startup (1 to 50 employees)","Small or mid-size (51 to 500 employees)","Mid-market (501 to 5,000 employees)","Enterprise (5,000 or more employees)"] },
+  { id:"sector", text:"What sector does your organization operate in?", type:"single", options:["Healthcare or Life Sciences","Financial Services or Fintech","Government or Public Sector","Education","Technology or SaaS","Nonprofit or Social Impact","Retail or E-commerce","Media or Entertainment","Manufacturing or Industrial","Legal or Professional Services","Other"] },
+  { id:"org_type", text:"Which best describes your organization's structure?", type:"single", options:["For-profit corporation","Nonprofit 501(c)(3)","Nonprofit 501(c)(4) or other advocacy organization","Government agency or public institution","Academic or research institution","Social enterprise or B Corp","Other"] },
+  { id:"ai_use", text:"How is AI currently used in your organization?", type:"multi", options:["Customer-facing products or services","Internal operations or automation","Decision-making systems (hiring, lending, admissions, etc.)","Research and development","Data analytics and reporting","Donor or constituent engagement","Content generation or communications","We are exploring AI but have not deployed yet"] },
+  { id:"risk", text:"How would you characterize your AI use cases in terms of impact on people?", type:"single", options:["Low impact: informational or creative tools only","Moderate impact: operational tools that affect internal processes","High impact: systems that affect individuals' rights, access to services, or safety","We are not sure"] },
+  { id:"data", text:"What types of data does your AI system use or process?", type:"multi", options:["Personal data of EU or UK residents","Personal data of US residents","Health or biometric data","Financial or credit data","Data about minors","Donor or beneficiary data","Minimal or no personal data","Not sure"] },
+  { id:"maturity", text:"How would you describe your current AI governance posture?", type:"single", options:["No governance practices in place","Informal practices with no documentation","Some written policies, inconsistently applied","Formal program with dedicated ownership","Advanced: audited, certified, or formally regulated"] },
+  { id:"concern", text:"What is your organization most concerned about right now?", type:"multi", options:["Legal liability or regulatory fines","Reputational damage from AI misuse","Harm to the communities or individuals we serve","Lack of internal accountability","Preparing for an audit or certification","Not knowing where to start"] },
+  { id:"goal", text:"What is your primary governance goal?", type:"single", options:["Achieve regulatory compliance","Build internal accountability and culture","Prepare for third-party audits or certification","Establish ethical AI principles and practices","Reduce legal and reputational risk","Protect the people our organization serves","Not sure — I need guidance on where to begin"] },
+];
+
+const LOADING_LINES = [
+  "Reviewing your assessment answers...",
+  "Mapping your governance context...",
+  "Analyzing fairness and harm exposure...",
+  "Evaluating transparency posture...",
+  "Assessing accountability structure...",
+  "Identifying privacy obligations...",
+  "Reviewing robustness considerations...",
+  "Matching jurisdictional frameworks...",
+  "Synthesizing your profile...",
+];
+
+let answers = {};
+let currentQ = 0;
+let loadingInterval = null;
+
+function show(id) {
+  ["intro","questions","freetext","loading","results"].forEach(s => {
+    document.getElementById("screen-"+s).style.display = "none";
+  });
+  document.getElementById("screen-"+id).style.display = "block";
+}
+
+function startAssessment() { currentQ = 0; answers = {}; renderQuestion(); show("questions"); }
+function showQuestions() { renderQuestion(); show("questions"); }
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const total = QUESTIONS.length;
+  document.getElementById("q-counter").textContent = `${currentQ+1} of ${total}`;
+  document.getElementById("progress-fill").style.width = `${((currentQ+1)/total)*100}%`;
+  document.getElementById("q-label").textContent = `Question ${currentQ+1}`;
+  document.getElementById("q-text").textContent = q.text;
+  document.getElementById("multi-hint").style.display = q.type === "multi" ? "block" : "none";
+  document.getElementById("btn-back").style.visibility = currentQ > 0 ? "visible" : "hidden";
+  document.getElementById("error-msg").style.display = "none";
+
+  const list = document.getElementById("options-list");
+  list.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = opt;
+    const sel = answers[q.id];
+    if (q.type === "multi" && Array.isArray(sel) && sel.includes(opt)) btn.classList.add("selected");
+    if (q.type === "single" && sel === opt) btn.classList.add("selected");
+    btn.onclick = () => selectOption(q.id, opt, q.type === "multi");
+    list.appendChild(btn);
+  });
+  updateNextBtn();
+}
+
+function selectOption(qId, value, isMulti) {
+  if (isMulti) {
+    const cur = Array.isArray(answers[qId]) ? answers[qId] : [];
+    answers[qId] = cur.includes(value) ? cur.filter(v => v !== value) : [...cur, value];
+  } else {
+    answers[qId] = value;
+  }
+  renderQuestion();
+}
+
+function updateNextBtn() {
+  const q = QUESTIONS[currentQ];
+  const val = answers[q.id];
+  const ok = val && (Array.isArray(val) ? val.length > 0 : true);
+  const btn = document.getElementById("btn-next");
+  btn.disabled = !ok;
+  btn.textContent = currentQ === QUESTIONS.length - 1 ? "Continue" : "Continue";
+}
+
+function nextQuestion() {
+  const q = QUESTIONS[currentQ];
+  const val = answers[q.id];
+  if (!val || (Array.isArray(val) && val.length === 0)) {
+    document.getElementById("error-msg").textContent = "Please select at least one option.";
+    document.getElementById("error-msg").style.display = "block";
+    return;
+  }
+  if (currentQ < QUESTIONS.length - 1) { currentQ++; renderQuestion(); }
+  else { show("freetext"); }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function startLoadingAnimation() {
+  let i = 0;
+  const el = document.getElementById("loading-sub");
+  el.textContent = LOADING_LINES[0];
+  loadingInterval = setInterval(() => {
+    i = (i + 1) % LOADING_LINES.length;
+    el.textContent = LOADING_LINES[i];
+  }, 1800);
+}
+
+function stopLoadingAnimation() {
+  if (loadingInterval) { clearInterval(loadingInterval); loadingInterval = null; }
+}
+
+async function submitAssessment() {
+  show("loading");
+  startLoadingAnimation();
+
+  const formatted = QUESTIONS.map(q => {
+    const ans = answers[q.id];
+    const text = Array.isArray(ans) ? ans.join(", ") : (ans || "No answer");
+    return `${q.text}\nAnswer: ${text}`;
+  }).join("\n\n");
+
+  const useCase = document.getElementById("use-case").value.trim();
+  const problem = document.getElementById("problem").value.trim();
+
+  try {
+    const res = await fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answers: formatted, useCase, problem }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Request failed");
+    stopLoadingAnimation();
+    renderResults(data);
+    show("results");
+  } catch(e) {
+    stopLoadingAnimation();
+    show("freetext");
+    alert("Something went wrong generating your profile. Please try again.");
+  }
+}
+
+const riskColors = {
+  Low:      { color:"#2e7d32", bg:"rgba(46,125,50,0.1)",   border:"rgba(46,125,50,0.4)" },
+  Moderate: { color:"#b45309", bg:"rgba(180,83,9,0.1)",    border:"rgba(180,83,9,0.4)" },
+  High:     { color:"#c2410c", bg:"rgba(194,65,12,0.1)",   border:"rgba(194,65,12,0.4)" },
+  Critical: { color:"#991b1b", bg:"rgba(153,27,27,0.12)",  border:"rgba(153,27,27,0.4)" },
+};
+
+function renderResults(data) {
+  document.getElementById("print-date").textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+
+  // Risk badge
+  const rc = riskColors[data.riskTier] || riskColors.Moderate;
+  const badge = document.getElementById("risk-badge");
+  badge.textContent = `${data.riskTier} Risk Profile`;
+  badge.style.color = rc.color;
+  badge.style.background = rc.bg;
+  badge.style.borderColor = rc.border;
+
+  // Org summary
+  document.getElementById("org-summary").textContent = data.orgSummary || "";
+
+  // Immediate actions
+  const imList = document.getElementById("immediate-list");
+  imList.innerHTML = "";
+  (data.immediateActions || []).forEach(a => {
+    imList.innerHTML += `<div class="immediate-item"><div class="immediate-dot"></div><span>${a}</span></div>`;
+  });
+
+  // Pillars
+  const pillarsList = document.getElementById("pillars-list");
+  pillarsList.innerHTML = "";
+  (data.pillars || []).forEach((p, i) => {
+    const el = document.createElement("div");
+    el.className = "pillar";
+    el.id = `pillar-${p.id}`;
+
+    const preview = (p.verdict || "").slice(0, 70) + ((p.verdict || "").length > 70 ? "..." : "");
+
+    const recs = (p.recommendations || []).map((r,i) =>
+      `<div class="rec-item"><span class="rec-bullet">&#9670;</span><span>${r}</span></div>`
+    ).join("");
+
+    const steps = (p.implementationSteps || []).map((s,i) =>
+      `<div class="step-item"><span class="step-num">${i+1}.</span><span>${s}</span></div>`
+    ).join("");
+
+    const fws = (p.frameworks || []).map(f =>
+      `<div class="fw-bubble"><div class="fw-name">${f.name}</div><div class="fw-note">${f.note}</div></div>`
+    ).join("");
+
+    el.innerHTML = `
+      <div class="pillar-header" onclick="togglePillar('${p.id}')">
+        <div class="pillar-header-left">
+          <div class="maturity-dot ${p.maturity}"></div>
+          <div>
+            <div class="pillar-name">${p.label}</div>
+            <div class="pillar-verdict-preview">${preview}</div>
+          </div>
+        </div>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="pillar-body">
+        <div class="verdict-box ${p.maturity}">${p.verdict}</div>
+        ${recs ? `<div class="pillar-section-label">Recommendations</div><div class="rec-list">${recs}</div>` : ""}
+        ${steps ? `<div class="pillar-section-label">Implementation Steps</div><div class="step-list">${steps}</div>` : ""}
+        ${fws ? `<div class="pillar-section-label">Relevant Frameworks</div><div class="frameworks">${fws}</div>` : ""}
+      </div>`;
+
+    pillarsList.appendChild(el);
+    // Open first pillar by default
+    if (i === 0) el.classList.add("open");
+  });
+
+  // Jurisdictional note
+  const juris = document.getElementById("juris-section");
+  juris.innerHTML = "";
+  (data.jurisdictionalNote || []).forEach(j => {
+    juris.innerHTML += `<div class="juris-item"><div class="juris-jurisdiction">${j.jurisdiction}</div><div class="juris-note">${j.note}</div></div>`;
+  });
+}
+
+function togglePillar(id) {
+  const el = document.getElementById(`pillar-${id}`);
+  el.classList.toggle("open");
+}
+
+function restart() {
+  answers = {}; currentQ = 0;
+  document.getElementById("use-case").value = "";
+  document.getElementById("problem").value = "";
+  show("intro");
+}
+</script>
+</body>
+</html>
