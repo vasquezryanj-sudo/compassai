@@ -12,35 +12,49 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --navy: #0d1426;
-  --navy-mid: #1b2651;
-  --navy-card: rgba(20,30,65,0.65);
-  --gold: #c4a55a;
-  --gold-light: #dfc080;
-  --gold-pale: rgba(196,165,90,0.1);
-  --text: #eeeaf5;
-  --muted: #9490b2;
-  --dim: #5e5a7a;
-  --border: rgba(196,165,90,0.16);
-  --green: #2e7d32;
-  --green-bg: rgba(46,125,50,0.12);
-  --green-border: rgba(46,125,50,0.35);
-  --amber: #b45309;
-  --amber-bg: rgba(180,83,9,0.12);
-  --amber-border: rgba(180,83,9,0.35);
-  --red: #991b1b;
-  --red-bg: rgba(153,27,27,0.12);
-  --red-border: rgba(153,27,27,0.35);
+  --charcoal: #1c1612;
+  --charcoal-mid: #2a2218;
+  --charcoal-card: rgba(32,25,18,0.92);
+  --terra: #ca7850;
+  --terra-light: #e09472;
+  --terra-pale: rgba(202,120,80,0.12);
+  --text: #f2ede8;
+  --muted: #b8a898;
+  --dim: #6e5e50;
+  --border: rgba(202,120,80,0.18);
+  --border-light: rgba(202,120,80,0.1);
+  --green: #4a8c5c;
+  --green-bg: rgba(74,140,92,0.12);
+  --green-border: rgba(74,140,92,0.35);
+  --amber: #c4913a;
+  --amber-bg: rgba(196,145,58,0.12);
+  --amber-border: rgba(196,145,58,0.35);
+  --red: #b84040;
+  --red-bg: rgba(184,64,64,0.12);
+  --red-border: rgba(184,64,64,0.35);
 }
-html { background: var(--navy); }
+html { background: var(--charcoal); }
 body {
   font-family: 'Inter', sans-serif;
   background:
-    radial-gradient(ellipse at 10% 5%, rgba(196,165,90,0.05) 0%, transparent 40%),
-    radial-gradient(ellipse at 90% 95%, rgba(30,45,90,0.7) 0%, transparent 50%),
-    var(--navy);
+    radial-gradient(ellipse at 15% 10%, rgba(202,120,80,0.08) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 90%, rgba(50,35,20,0.6) 0%, transparent 55%),
+    var(--charcoal);
   color: var(--text);
   min-height: 100vh;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: -40px;
+  right: -40px;
+  width: 280px;
+  height: 280px;
+  background: url('/compass_rose.png') center/contain no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
 }
 .app {
   min-height: 100vh;
@@ -49,12 +63,15 @@ body {
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 .card {
-  background: var(--navy-card);
+  background: var(--charcoal-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   backdrop-filter: blur(18px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
   width: 100%;
   max-width: 720px;
   padding: 3rem 3.5rem;
@@ -65,7 +82,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .logo-wrap { display: flex; justify-content: center; margin-bottom: 2.5rem; }
-.logo-wrap img { height: 80px; width: auto; object-fit: contain; }
+.logo-wrap img { height: 180px; width: auto; object-fit: contain; }
 .headline {
   font-family: 'Playfair Display', serif;
   font-size: 2.4rem;
@@ -77,13 +94,13 @@ body {
 .headline em { font-style: italic; color: var(--gold-light); }
 .body-text { font-size: 0.92rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; font-weight: 300; }
 .body-text strong { color: var(--text); font-weight: 500; }
-.gold-rule { width: 48px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin: 1.5rem 0; }
-.divider { height: 1px; background: rgba(196,165,90,0.1); margin: 1.75rem 0; }
+.gold-rule { width: 48px; height: 2px; background: linear-gradient(90deg, var(--terra), transparent); margin: 1.5rem 0; }
+.divider { height: 1px; background: rgba(202,120,80,0.12); margin: 1.75rem 0; }
 
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, var(--gold), #a8893f);
-  color: #0d1426;
+  background: linear-gradient(135deg, var(--terra), #a06040);
+  color: #fff;
   border: none;
   border-radius: 8px;
   padding: 0.9rem 2.25rem;
@@ -100,7 +117,7 @@ body {
 .btn-ghost {
   background: transparent;
   color: var(--muted);
-  border: 1px solid rgba(196,165,90,0.22);
+  border: 1px solid rgba(202,120,80,0.28);
   border-radius: 8px;
   padding: 0.9rem 1.75rem;
   font-family: 'Inter', sans-serif;
@@ -110,25 +127,25 @@ body {
   letter-spacing: 0.05em;
   transition: all 0.2s;
 }
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost:hover { border-color: var(--terra); color: var(--terra); }
 
 /* Progress */
 .progress-wrap { margin-bottom: 2.25rem; }
 .progress-meta { display: flex; justify-content: space-between; margin-bottom: 0.55rem; }
 .progress-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); font-weight: 500; }
-.progress-bar { height: 2px; background: rgba(196,165,90,0.1); border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.4s ease; }
+.progress-bar { height: 2px; background: rgba(202,120,80,0.1); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terra), var(--terra-light)); border-radius: 2px; transition: width 0.4s ease; }
 
 /* Question */
-.q-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem; font-weight: 600; }
+.q-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--terra); margin-bottom: 0.5rem; font-weight: 600; }
 .q-text { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 400; line-height: 1.35; margin-bottom: 0.4rem; }
 .multi-hint { font-size: 0.75rem; color: var(--dim); margin-bottom: 1.1rem; font-style: italic; }
 .options { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.75rem; }
 .option {
   padding: 0.75rem 1.1rem;
   border-radius: 8px;
-  border: 1px solid rgba(196,165,90,0.13);
-  background: rgba(196,165,90,0.02);
+  border: 1px solid rgba(202,120,80,0.14);
+  background: rgba(202,120,80,0.02);
   color: var(--muted);
   cursor: pointer;
   transition: all 0.15s;
@@ -137,18 +154,18 @@ body {
   font-family: 'Inter', sans-serif;
   line-height: 1.4;
 }
-.option:hover { border-color: rgba(196,165,90,0.38); color: var(--text); background: rgba(196,165,90,0.05); }
-.option.selected { border-color: var(--gold); background: var(--gold-pale); color: var(--text); }
+.option:hover { border-color: rgba(202,120,80,0.45); color: var(--text); background: rgba(202,120,80,0.06); }
+.option.selected { border-color: var(--terra); background: var(--terra-pale); color: var(--text); font-weight: 500; }
 .nav-row { display: flex; justify-content: space-between; align-items: center; }
-.error-msg { background: rgba(153,27,27,0.1); border: 1px solid rgba(239,68,68,0.22); border-radius: 8px; padding: 0.8rem 1rem; color: #fca5a5; font-size: 0.83rem; margin-bottom: 1.25rem; }
+.error-msg { background: rgba(184,64,64,0.1); border: 1px solid rgba(184,64,64,0.3); border-radius: 8px; padding: 0.8rem 1rem; color: #f4a0a0; font-size: 0.83rem; margin-bottom: 1.25rem; }
 
 /* Free text fields */
 .field-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; display: block; }
 .field-hint { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.65rem; font-style: italic; }
 textarea {
   width: 100%;
-  background: rgba(196,165,90,0.03);
-  border: 1px solid rgba(196,165,90,0.18);
+  background: rgba(202,120,80,0.04);
+  border: 1px solid rgba(202,120,80,0.18);
   border-radius: 8px;
   padding: 0.85rem 1rem;
   color: var(--text);
@@ -160,15 +177,15 @@ textarea {
   transition: border-color 0.2s;
   margin-bottom: 1.25rem;
 }
-textarea:focus { outline: none; border-color: rgba(196,165,90,0.45); }
+textarea:focus { outline: none; border-color: rgba(202,120,80,0.55); }
 textarea::placeholder { color: var(--dim); }
 
 /* Loading */
 .loading-center { text-align: center; padding: 2rem 0 1rem; }
 .spinner-ring {
   width: 56px; height: 56px;
-  border: 2px solid rgba(196,165,90,0.12);
-  border-top-color: var(--gold);
+  border: 2px solid rgba(202,120,80,0.15);
+  border-top-color: var(--terra);
   border-radius: 50%;
   animation: spin 0.9s linear infinite;
   margin: 0 auto 2rem;
@@ -202,15 +219,15 @@ textarea::placeholder { color: var(--dim); }
 
 /* Immediate actions */
 .immediate-wrap { margin: 1.5rem 0; }
-.immediate-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); font-weight: 700; margin-bottom: 0.75rem; }
+.immediate-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--terra); font-weight: 700; margin-bottom: 0.75rem; }
 .immediate-item {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  background: rgba(196,165,90,0.05);
-  border: 1px solid rgba(196,165,90,0.15);
+  background: rgba(202,120,80,0.05);
+  border: 1px solid rgba(202,120,80,0.16);
   margin-bottom: 0.45rem;
   font-size: 0.86rem;
   color: var(--text);
@@ -219,7 +236,7 @@ textarea::placeholder { color: var(--dim); }
 .immediate-dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--gold);
+  background: var(--terra);
   flex-shrink: 0;
   margin-top: 0.45rem;
 }
@@ -228,22 +245,22 @@ textarea::placeholder { color: var(--dim); }
 .pillars { display: flex; flex-direction: column; gap: 0.5rem; margin: 1.5rem 0; }
 .pillar {
   border-radius: 10px;
-  border: 1px solid rgba(196,165,90,0.14);
+  border: 1px solid rgba(202,120,80,0.16);
   overflow: hidden;
   transition: border-color 0.2s;
 }
-.pillar.open { border-color: rgba(196,165,90,0.28); }
+.pillar.open { border-color: rgba(202,120,80,0.45); }
 .pillar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: rgba(196,165,90,0.02);
+  background: rgba(202,120,80,0.03);
   transition: background 0.15s;
   gap: 1rem;
 }
-.pillar-header:hover { background: rgba(196,165,90,0.05); }
+.pillar-header:hover { background: rgba(202,120,80,0.07); }
 .pillar-header-left { display: flex; align-items: center; gap: 0.85rem; flex: 1; min-width: 0; }
 .maturity-dot {
   width: 10px; height: 10px;
@@ -272,7 +289,7 @@ textarea::placeholder { color: var(--dim); }
 .pillar-body {
   display: none;
   padding: 0 1.25rem 1.25rem;
-  border-top: 1px solid rgba(196,165,90,0.08);
+  border-top: 1px solid rgba(202,120,80,0.1);
 }
 .pillar.open .pillar-body { display: block; }
 
@@ -293,7 +310,7 @@ textarea::placeholder { color: var(--dim); }
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--gold);
+  color: var(--terra);
   font-weight: 700;
   margin: 1.1rem 0 0.55rem;
 }
@@ -307,11 +324,11 @@ textarea::placeholder { color: var(--dim); }
   line-height: 1.6;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  background: rgba(196,165,90,0.02);
+  background: rgba(202,120,80,0.03);
 }
-.step-item { background: rgba(20,30,65,0.4); border-left: 2px solid rgba(196,165,90,0.3); border-radius: 0 6px 6px 0; }
-.rec-bullet { color: var(--gold); font-size: 0.7rem; margin-top: 0.35rem; flex-shrink: 0; }
-.step-num { color: var(--gold); font-size: 0.68rem; font-weight: 700; min-width: 16px; margin-top: 0.2rem; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.step-item { background: rgba(202,120,80,0.04); border-left: 2px solid rgba(202,120,80,0.4); border-radius: 0 6px 6px 0; }
+.rec-bullet { color: var(--terra); font-size: 0.7rem; margin-top: 0.35rem; flex-shrink: 0; }
+.step-num { color: var(--terra); font-size: 0.68rem; font-weight: 700; min-width: 16px; margin-top: 0.2rem; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 
 /* Framework bubbles */
 .frameworks { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; }
@@ -320,12 +337,12 @@ textarea::placeholder { color: var(--dim); }
   flex-direction: column;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
-  background: rgba(196,165,90,0.05);
-  border: 1px solid rgba(196,165,90,0.18);
+  background: rgba(202,120,80,0.04);
+  border: 1px solid rgba(202,120,80,0.16);
   font-size: 0.75rem;
   max-width: 100%;
 }
-.fw-name { font-weight: 600; color: var(--gold); margin-bottom: 0.2rem; }
+.fw-name { font-weight: 600; color: var(--terra); margin-bottom: 0.2rem; }
 .fw-note { color: var(--dim); line-height: 1.5; font-size: 0.73rem; }
 
 /* Jurisdictional note */
@@ -336,16 +353,17 @@ textarea::placeholder { color: var(--dim); }
 
 /* Consult box */
 .consult-box {
-  background: linear-gradient(135deg, rgba(196,165,90,0.07), rgba(20,30,65,0.4));
-  border: 1px solid rgba(196,165,90,0.28);
+  background: linear-gradient(135deg, rgba(202,120,80,0.08), rgba(32,25,18,0.5));
+  border: 1px solid rgba(202,120,80,0.28);
   border-radius: 12px;
   padding: 1.5rem 1.6rem;
   margin-top: 1.75rem;
 }
 .consult-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
 .consult-body { font-size: 0.83rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; font-weight: 300; }
-.consult-name { font-size: 0.87rem; color: var(--text); font-weight: 600; margin-bottom: 0.2rem; }
-.consult-email a { font-size: 0.84rem; color: var(--gold); text-decoration: none; }
+.consult-name { font-size: 0.87rem; color: var(--text); font-weight: 600; margin-bottom: 0.15rem; }
+.consult-credential { font-size: 0.8rem; color: var(--muted); font-weight: 500; margin-bottom: 0.1rem; }
+.consult-email a { font-size: 0.84rem; color: var(--terra); text-decoration: none; }
 .consult-email a:hover { text-decoration: underline; }
 
 .action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
@@ -355,7 +373,7 @@ textarea::placeholder { color: var(--dim); }
   color: var(--dim);
   font-style: italic;
   line-height: 1.6;
-  border-left: 2px solid rgba(196,165,90,0.2);
+  border-left: 2px solid rgba(202,120,80,0.25);
   padding-left: 0.75rem;
   margin: 1rem 0;
 }
@@ -367,7 +385,7 @@ textarea::placeholder { color: var(--dim); }
   .card { background: white !important; border: none !important; border-radius: 0 !important; max-width: 100% !important; padding: 1.75rem 2.25rem !important; box-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
   .action-row, .screen-only { display: none !important; }
   .print-header { display: flex !important; align-items: center; justify-content: space-between; padding-bottom: 1.25rem; margin-bottom: 1.75rem; border-bottom: 2px solid #c4a55a; }
-  .print-logo { height: 52px !important; width: auto; }
+  .print-logo { height: 120px !important; width: auto; }
   .print-meta { text-align: right; font-size: 0.72rem; color: #555; line-height: 1.7; }
   .print-meta strong { color: #0d1426; display: block; }
   .pillar-body { display: block !important; }
@@ -389,6 +407,14 @@ textarea::placeholder { color: var(--dim); }
   .divider { background: #e5dcc5 !important; }
 }
 .print-header { display: none; }
+.app-footer {
+  margin-top: 2rem;
+  padding: 1rem 0;
+  font-size: 0.72rem;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -402,10 +428,10 @@ textarea::placeholder { color: var(--dim); }
     <h1 class="headline">Responsible AI starts with <em>knowing where you stand.</em></h1>
     <div class="gold-rule"></div>
     <p class="body-text">
-      AI governance is not just a legal obligation. It is a commitment to the people your organization serves. <strong>Compass helps you understand your posture across the principles that matter most: transparency, fairness, accountability, privacy, and robustness.</strong>
+      AI is making decisions that affect real people every day. Most organizations deploying or using AI systems are doing so without a clear picture of whether they're doing it responsibly.
     </p>
     <p class="body-text">
-      Answer a short assessment about your organization and how you use AI. You will receive a personalized governance profile — with specific guidance, concrete next steps, and the regulatory context that applies to your situation.
+      Compass is built for organizations that want to get this right. Not just to stay compliant, but because the real people within and outside your organization deserve that commitment and care. Answer a short assessment and receive a governance profile built around the principles that matter most: transparency, fairness, accountability, privacy, and robustness.
     </p>
     <button class="btn-primary" onclick="startAssessment()">Begin Assessment</button>
   </div>
@@ -413,7 +439,7 @@ textarea::placeholder { color: var(--dim); }
   <!-- QUESTIONS -->
   <div class="card" id="screen-questions" style="display:none;">
     <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
-      <img src="/logo.png" alt="Compass AI" style="height:56px;" onerror="this.style.display='none'">
+      <img src="/logo.png" alt="Compass AI" style="height:140px;" onerror="this.style.display='none'">
     </div>
     <div class="progress-wrap">
       <div class="progress-meta">
@@ -436,7 +462,7 @@ textarea::placeholder { color: var(--dim); }
   <!-- FREE TEXT -->
   <div class="card" id="screen-freetext" style="display:none;">
     <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
-      <img src="/logo.png" alt="Compass AI" style="height:56px;" onerror="this.style.display='none'">
+      <img src="/logo.png" alt="Compass AI" style="height:140px;" onerror="this.style.display='none'">
     </div>
     <div class="q-label">Final Step</div>
     <h2 style="font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:400;margin-bottom:0.4rem;line-height:1.35;">Help us understand your situation.</h2>
@@ -482,7 +508,7 @@ textarea::placeholder { color: var(--dim); }
     </div>
 
     <div class="logo-wrap screen-only" style="margin-bottom:1.5rem;">
-      <img src="/logo.png" alt="Compass AI" style="height:60px;" onerror="this.style.display='none'">
+      <img src="/logo.png" alt="Compass AI" style="height:140px;" onerror="this.style.display='none'">
     </div>
 
     <div id="risk-badge" class="risk-badge"></div>
@@ -515,8 +541,10 @@ textarea::placeholder { color: var(--dim); }
 
     <div class="consult-box">
       <div class="consult-title">Take the next step with expert guidance.</div>
-      <p class="consult-body">This profile gives you a clear picture of where your organization stands. Translating it into a governance program that actually protects your organization and the people you serve takes expertise. Ryan Vasquez is an AI governance consultant specializing in responsible AI integration, regulatory compliance, and ethical AI frameworks.</p>
-      <div class="consult-name">Ryan Vasquez, AI Governance Consultant</div>
+      <p class="consult-body">This profile gives you a clear picture of where your organization stands. Translating it into a governance program that actually protects your organization and the people you serve takes expertise. Provenance can connect you with an internationally recognized AI governance expert specializing in responsible AI integration, regulatory compliance, and ethical AI frameworks.</p>
+      <div class="consult-name">Ryan Vasquez</div>
+      <div class="consult-credential">AI Governance Professional (IAPP certified)</div>
+      <div class="consult-credential">MA in Technology and Ethics, Fordham University</div>
       <div class="consult-email"><a href="mailto:vasquezryanj@gmail.com">vasquezryanj@gmail.com</a></div>
     </div>
 
@@ -526,6 +554,8 @@ textarea::placeholder { color: var(--dim); }
     </div>
 
   </div>
+
+  <div class="app-footer">created by Provenance</div>
 
 </div>
 

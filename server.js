@@ -27,6 +27,8 @@ Robustness — Does the system perform reliably, safely, and consistently? What 
 
 For each pillar, also return a maturity signal: "needs_attention", "developing", or "strong" — based on the organization's answers and context.
 
+When writing the verdict for each pillar, maintain a conversational second-person tone but avoid declarative statements that assume the organization is already failing or violating standards. Instead of stating what the organization is doing wrong, frame gaps as conditional risks and forward-looking responsibilities. For example, prefer "If you are processing sensitive data through AI without patient disclosure, you may be facing serious HIPAA exposure" over "You are violating HIPAA." Urgency should still be communicated clearly when the risk is high — the goal is not to soften the stakes, but to position the organization as capable of addressing them, not already guilty of ignoring them.
+
 Return only valid JSON in this exact structure, no preamble, no markdown, no code fences:
 
 {
@@ -134,6 +136,7 @@ const server = http.createServer((req, res) => {
     return serveFile(res, path.join(__dirname, "index.html"), "text/html");
   }
   if (req.url === "/logo.png") return serveFile(res, path.join(__dirname, "logo.png"), "image/png");
+  if (req.url === "/compass_rose.png") return serveFile(res, path.join(__dirname, "compass_rose.png"), "image/png");
 
   res.writeHead(404); res.end("Not found");
 });
