@@ -137,6 +137,7 @@ const server = http.createServer((req, res) => {
   }
   if (req.url === "/logo.png") return serveFile(res, path.join(__dirname, "logo.png"), "image/png");
   if (req.url === "/compass_rose.png") return serveFile(res, path.join(__dirname, "compass_rose.png"), "image/png");
+  if (req.url === "/favicon.png") return serveFile(res, path.join(__dirname, "favicon.png"), "image/png");
 
   res.writeHead(404); res.end("Not found");
 });
