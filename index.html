@@ -272,14 +272,6 @@ textarea::placeholder { color: var(--dim); }
 .maturity-dot.developing { background: var(--amber); box-shadow: 0 0 6px rgba(180,83,9,0.5); }
 .maturity-dot.strong { background: var(--green); box-shadow: 0 0 6px rgba(46,125,50,0.5); }
 .pillar-name { font-size: 0.84rem; font-weight: 600; color: var(--text); }
-.pillar-verdict-preview {
-  font-size: 0.76rem;
-  color: var(--dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 260px;
-}
 .chevron {
   color: var(--dim);
   transition: transform 0.25s ease;
@@ -315,8 +307,8 @@ textarea::placeholder { color: var(--dim); }
   font-weight: 700;
   margin: 1.1rem 0 0.55rem;
 }
-.rec-list, .step-list { display: flex; flex-direction: column; gap: 0.4rem; }
-.rec-item, .step-item {
+.rec-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.rec-item {
   display: flex;
   gap: 0.7rem;
   align-items: flex-start;
@@ -327,24 +319,25 @@ textarea::placeholder { color: var(--dim); }
   border-radius: 6px;
   background: rgba(202,120,80,0.03);
 }
-.step-item { background: rgba(202,120,80,0.04); border-left: 2px solid rgba(202,120,80,0.4); border-radius: 0 6px 6px 0; }
 .rec-bullet { color: var(--terra); font-size: 0.7rem; margin-top: 0.35rem; flex-shrink: 0; }
-.step-num { color: var(--terra); font-size: 0.68rem; font-weight: 700; min-width: 16px; margin-top: 0.2rem; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 
-/* Framework bubbles */
-.frameworks { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; }
-.fw-bubble {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+/* Pillar CTA */
+.pillar-cta {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid rgba(202,120,80,0.4);
   background: rgba(202,120,80,0.04);
-  border: 1px solid rgba(202,120,80,0.16);
-  font-size: 0.75rem;
-  max-width: 100%;
+  border-radius: 0 6px 6px 0;
 }
-.fw-name { font-weight: 600; color: var(--terra); margin-bottom: 0.2rem; }
-.fw-note { color: var(--dim); line-height: 1.5; font-size: 0.73rem; }
+.pillar-cta-text { font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.5rem; }
+.pillar-cta a {
+  font-size: 0.75rem;
+  color: var(--terra);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.pillar-cta a:hover { text-decoration: underline; }
 
 /* Jurisdictional note */
 .juris-section { margin: 1rem 0; }
@@ -394,16 +387,13 @@ textarea::placeholder { color: var(--dim); }
   .chevron { display: none; }
   .headline, .results-headline, .consult-title { color: #0d1426 !important; }
   .headline em, .results-headline em { color: #a8893f !important; }
-  .org-summary, .body-text, .consult-body, .juris-note, .rec-item, .step-item { color: #374151 !important; }
+  .org-summary, .body-text, .consult-body, .juris-note, .rec-item { color: #374151 !important; }
   .muted { color: #6b7280 !important; }
-  .fw-bubble { background: #f9f7f1 !important; border-color: #e5dcc5 !important; }
-  .fw-note { color: #6b7280 !important; }
   .verdict-box.needs_attention { background: #fef2f2 !important; border-color: #fca5a5 !important; color: #991b1b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .verdict-box.developing { background: #fffbeb !important; border-color: #fcd34d !important; color: #92400e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .verdict-box.strong { background: #f0fdf4 !important; border-color: #86efac !important; color: #166534 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .maturity-dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .consult-box { background: #f9f7f1 !important; border-color: #e5dcc5 !important; }
-  .step-item { border-left-color: #c4a55a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .pillar { border-color: #e5dcc5 !important; page-break-inside: avoid; }
   .divider { background: #e5dcc5 !important; }
 }
@@ -742,28 +732,17 @@ function renderResults(data) {
     el.className = "pillar";
     el.id = `pillar-${p.id}`;
 
-    const preview = (p.verdict || "").slice(0, 70) + ((p.verdict || "").length > 70 ? "..." : "");
-
     const recs = (p.recommendations || []).map((r,i) =>
       `<div class="rec-item"><span class="rec-bullet">&#9670;</span><span>${r}</span></div>`
     ).join("");
 
-    const steps = (p.implementationSteps || []).map((s,i) =>
-      `<div class="step-item"><span class="step-num">${i+1}.</span><span>${s}</span></div>`
-    ).join("");
-
-    const fws = (p.frameworks || []).map(f =>
-      `<div class="fw-bubble"><div class="fw-name">${f.name}</div><div class="fw-note">${f.note}</div></div>`
-    ).join("");
+    const cta = p.ctaText ? `<div class="pillar-cta"><div class="pillar-cta-text">${p.ctaText}</div><a href="mailto:ryan@withprovenance.org">Schedule a Consultation</a></div>` : "";
 
     el.innerHTML = `
       <div class="pillar-header" onclick="togglePillar('${p.id}')">
         <div class="pillar-header-left">
           <div class="maturity-dot ${p.maturity}"></div>
-          <div>
-            <div class="pillar-name">${p.label}</div>
-            <div class="pillar-verdict-preview">${preview}</div>
-          </div>
+          <div class="pillar-name">${p.label}</div>
         </div>
         <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -772,8 +751,7 @@ function renderResults(data) {
       <div class="pillar-body">
         <div class="verdict-box ${p.maturity}">${p.verdict}</div>
         ${recs ? `<div class="pillar-section-label">Recommendations</div><div class="rec-list">${recs}</div>` : ""}
-        ${steps ? `<div class="pillar-section-label">Implementation Steps</div><div class="step-list">${steps}</div>` : ""}
-        ${fws ? `<div class="pillar-section-label">Relevant Frameworks</div><div class="frameworks">${fws}</div>` : ""}
+        ${cta}
       </div>`;
 
     pillarsList.appendChild(el);
