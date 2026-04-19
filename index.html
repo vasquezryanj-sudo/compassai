@@ -372,32 +372,9 @@ textarea::placeholder { color: var(--dim); }
   margin: 1rem 0;
 }
 
-/* Print */
-@media print {
-  body, .app { background: white !important; }
-  .app { padding: 0 !important; justify-content: flex-start !important; }
-  .card { background: white !important; border: none !important; border-radius: 0 !important; max-width: 100% !important; padding: 1.75rem 2.25rem !important; box-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
-  .action-row, .screen-only { display: none !important; }
-  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding-bottom: 1.25rem; margin-bottom: 1.75rem; border-bottom: 2px solid #c4a55a; }
-  .print-logo { height: 120px !important; width: auto; }
-  .print-meta { text-align: right; font-size: 0.72rem; color: #555; line-height: 1.7; }
-  .print-meta strong { color: #0d1426; display: block; }
-  .pillar-body { display: block !important; }
-  .pillar-header { cursor: default; }
-  .chevron { display: none; }
-  .headline, .results-headline, .consult-title { color: #0d1426 !important; }
-  .headline em, .results-headline em { color: #a8893f !important; }
-  .org-summary, .body-text, .consult-body, .juris-note, .rec-item { color: #374151 !important; }
-  .muted { color: #6b7280 !important; }
-  .verdict-box.needs_attention { background: #fef2f2 !important; border-color: #fca5a5 !important; color: #991b1b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .verdict-box.developing { background: #fffbeb !important; border-color: #fcd34d !important; color: #92400e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .verdict-box.strong { background: #f0fdf4 !important; border-color: #86efac !important; color: #166534 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .maturity-dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .consult-box { background: #f9f7f1 !important; border-color: #e5dcc5 !important; }
-  .pillar { border-color: #e5dcc5 !important; page-break-inside: avoid; }
-  .divider { background: #e5dcc5 !important; }
-}
-.print-header { display: none; }
+/* Print header & footer (hidden on screen) */
+.print-header, .print-footer { display: none; }
+
 .app-footer {
   margin-top: 2rem;
   padding: 1rem 0;
@@ -405,6 +382,248 @@ textarea::placeholder { color: var(--dim); }
   color: var(--dim);
   letter-spacing: 0.04em;
   text-align: center;
+}
+
+/* Print */
+@media print {
+  body { background: white !important; }
+  .app { background: white !important; padding: 0 !important; justify-content: flex-start !important; }
+  body::before { display: none !important; }
+  .card { background: white !important; border: none !important; border-radius: 0 !important; max-width: 100% !important; padding: 2rem 2.5rem !important; box-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
+  .action-row, .screen-only, .chevron, .app-footer { display: none !important; }
+
+  /* Print header */
+  .print-header {
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 2px solid #c47850;
+  }
+  .print-header-left .print-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c47850;
+    margin-bottom: 0.15rem;
+  }
+  .print-header-left .print-subtitle {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+  }
+  .print-meta {
+    text-align: right;
+    font-size: 0.72rem;
+    color: #888;
+    line-height: 1.8;
+  }
+  .print-meta strong { color: #1a1a1a; display: block; }
+
+  /* Print footer */
+  .print-footer {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.68rem;
+    color: #b0a898;
+    border-top: 1px solid #e8ddd0;
+    padding-top: 1rem;
+    margin-top: 2rem;
+  }
+
+  /* Text colors */
+  .headline, .results-headline, .consult-title { color: #1a1a1a !important; }
+  .headline em, .results-headline em { color: #c47850 !important; }
+  .gold-rule { background: #c47850 !important; }
+
+  /* Section labels */
+  .q-label, .immediate-label, .pillar-section-label {
+    color: #c47850 !important;
+    font-size: 0.62rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.14em !important;
+    font-weight: 700 !important;
+  }
+
+  /* Org summary */
+  .org-summary {
+    border-left: 3px solid rgba(196,120,80,0.3) !important;
+    padding-left: 1rem !important;
+    font-size: 0.88rem !important;
+    color: #4a5568 !important;
+    font-weight: 300 !important;
+  }
+
+  /* Risk badge */
+  .risk-badge {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Immediate actions */
+  .immediate-item {
+    background: none !important;
+    border: none !important;
+    padding: 0.35rem 0 !important;
+  }
+  .immediate-item span { font-size: 0.84rem !important; color: #374151 !important; }
+  .immediate-dot {
+    width: 5px !important;
+    height: 5px !important;
+    background: #c47850 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Pillars */
+  .pillar-body { display: block !important; }
+  .pillar-header {
+    cursor: default !important;
+    background: none !important;
+    padding: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .pillar {
+    border: none !important;
+    margin-bottom: 1.5rem !important;
+    page-break-inside: avoid !important;
+    overflow: visible !important;
+  }
+  .pillar-body {
+    border-top: none !important;
+    padding: 0 !important;
+  }
+  .pillar-name {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.05rem !important;
+    color: #1a1a1a !important;
+  }
+  .pillars { gap: 0 !important; }
+  .pillar:not(:last-child)::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: #f0e8e0;
+    margin-top: 1rem;
+  }
+
+  /* Maturity dots */
+  .maturity-dot {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+  }
+  .maturity-dot.needs_attention { background: #b84040 !important; }
+  .maturity-dot.developing { background: #c4913a !important; }
+  .maturity-dot.strong { background: #4a8c5c !important; }
+
+  /* Verdict boxes */
+  .verdict-box {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .verdict-box.needs_attention {
+    background: rgba(184,64,64,0.05) !important;
+    border: 1px solid rgba(184,64,64,0.2) !important;
+    color: #7a2020 !important;
+  }
+  .verdict-box.developing {
+    background: rgba(196,145,58,0.05) !important;
+    border: 1px solid rgba(196,145,58,0.2) !important;
+    color: #7a5010 !important;
+  }
+  .verdict-box.strong {
+    background: rgba(74,140,92,0.05) !important;
+    border: 1px solid rgba(74,140,92,0.2) !important;
+    color: #2a5c38 !important;
+  }
+
+  /* Recommendations */
+  .rec-item {
+    background: none !important;
+    color: #374151 !important;
+    padding: 0.3rem 0.75rem !important;
+  }
+  .rec-bullet { color: #c47850 !important; }
+
+  /* Pillar CTA */
+  .pillar-cta {
+    border-left: 2px solid rgba(196,120,80,0.4) !important;
+    background: rgba(196,120,80,0.05) !important;
+    padding: 0.7rem 0.9rem !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .pillar-cta-text {
+    font-size: 0.78rem !important;
+    color: #6b5a4a !important;
+  }
+  .pillar-cta a {
+    font-size: 0.76rem !important;
+    color: #c47850 !important;
+    text-decoration: none !important;
+  }
+
+  /* Dividers */
+  .divider { background: #f0e8e0 !important; }
+
+  /* Jurisdictional notes */
+  .juris-jurisdiction {
+    color: #c47850 !important;
+    font-size: 0.62rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.14em !important;
+    font-weight: 700 !important;
+  }
+  .juris-note {
+    font-size: 0.82rem !important;
+    color: #4a5568 !important;
+    font-weight: 300 !important;
+  }
+
+  /* Consult box */
+  .consult-box {
+    background: #faf7f4 !important;
+    border: 1px solid #e8ddd0 !important;
+    border-radius: 8px !important;
+    padding: 1.25rem 1.4rem !important;
+  }
+  .consult-title {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+  }
+  .consult-body {
+    font-size: 0.8rem !important;
+    color: #4a5568 !important;
+    font-weight: 300 !important;
+  }
+  .consult-name {
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+  }
+  .consult-credential {
+    font-size: 0.76rem !important;
+    color: #6b7280 !important;
+    line-height: 1.7 !important;
+  }
+  .consult-email a { color: #c47850 !important; }
+
+  /* Disclaimer */
+  .disclaimer {
+    font-size: 0.72rem !important;
+    font-style: italic !important;
+    color: #9a9a9a !important;
+    border-left: none !important;
+    border-top: 1px solid #e8ddd0 !important;
+    padding-left: 0 !important;
+    padding-top: 1rem !important;
+  }
 }
 </style>
 </head>
@@ -488,11 +707,13 @@ textarea::placeholder { color: var(--dim); }
 
     <!-- Print header (hidden on screen) -->
     <div class="print-header">
-      <img src="/logo.png" alt="Compass AI" class="print-logo" onerror="this.style.display='none'">
+      <div class="print-header-left">
+        <div class="print-title">Compass AI</div>
+        <div class="print-subtitle">Responsible AI Governance Profile</div>
+      </div>
       <div class="print-meta">
-        <strong>Compass AI Governance Profile</strong>
-        Prepared by Ryan Vasquez<br>
-        AI Governance Consultant<br>
+        <strong>Prepared by Provenance</strong>
+        Ryan Vasquez, AIGP<br>
         ryan@withprovenance.org<br>
         <span id="print-date"></span>
       </div>
@@ -542,6 +763,13 @@ textarea::placeholder { color: var(--dim); }
     <div class="action-row">
       <button class="btn-primary" onclick="window.print()">Save as PDF</button>
       <button class="btn-ghost" onclick="restart()">Start Over</button>
+    </div>
+
+    <!-- Print footer (hidden on screen) -->
+    <div class="print-footer">
+      <span>Compass AI by Provenance</span>
+      <span>compass.withprovenance.org</span>
+      <span id="print-footer-date"></span>
     </div>
 
   </div>
@@ -704,7 +932,9 @@ const riskColors = {
 };
 
 function renderResults(data) {
-  document.getElementById("print-date").textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  const printDate = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  document.getElementById("print-date").textContent = printDate;
+  document.getElementById("print-footer-date").textContent = printDate;
 
   // Risk badge
   const rc = riskColors[data.riskTier] || riskColors.Moderate;
