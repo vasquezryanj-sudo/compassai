@@ -688,7 +688,22 @@ textarea::placeholder { color: var(--dim); }
 
     <div class="nav-row">
       <button class="btn-ghost" onclick="showQuestions()">Back</button>
-      <button class="btn-primary" onclick="submitAssessment()">Generate My Profile</button>
+      <button class="btn-primary" onclick="showEmailCapture()">Generate My Profile</button>
+    </div>
+  </div>
+
+  <!-- EMAIL CAPTURE -->
+  <div class="card" id="screen-email" style="display:none;">
+    <div class="logo-wrap screen-only" style="margin-bottom:0.75rem;">
+      <img src="/logo.png" alt="Compass AI" style="height:60px;" onerror="this.style.display='none'">
+    </div>
+    <div class="q-label">Almost there</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:400;margin-bottom:0.4rem;line-height:1.35;">Where should we send your profile?</h2>
+    <p class="body-text" style="margin-bottom:1.5rem;">Enter your email and we will follow up with next steps. This is optional — your profile will be available in the app either way.</p>
+    <input type="email" id="email-capture" placeholder="your@email.com" style="width:100%;background:rgba(202,120,80,0.04);border:1px solid rgba(202,120,80,0.18);border-radius:8px;padding:0.85rem 1rem;color:var(--text);font-family:'Inter',sans-serif;font-size:0.87rem;line-height:1.6;transition:border-color 0.2s;margin-bottom:1.25rem;outline:none;" onfocus="this.style.borderColor='rgba(202,120,80,0.55)'" onblur="this.style.borderColor='rgba(202,120,80,0.18)'">
+    <button class="btn-primary" onclick="submitAssessment(document.getElementById('email-capture').value.trim())" style="margin-bottom:0.75rem;">Generate My Profile</button>
+    <div style="text-align:center;">
+      <span onclick="submitAssessment('')" style="font-size:0.78rem;color:var(--dim);cursor:pointer;font-weight:300;">Skip, just show my results</span>
     </div>
   </div>
 
@@ -807,9 +822,10 @@ const LOADING_LINES = [
 let answers = {};
 let currentQ = 0;
 let loadingInterval = null;
+let capturedEmail = "";
 
 function show(id) {
-  ["intro","questions","freetext","loading","results"].forEach(s => {
+  ["intro","questions","freetext","email","loading","results"].forEach(s => {
     document.getElementById("screen-"+s).style.display = "none";
   });
   document.getElementById("screen-"+id).style.display = "block";
@@ -893,7 +909,10 @@ function stopLoadingAnimation() {
   if (loadingInterval) { clearInterval(loadingInterval); loadingInterval = null; }
 }
 
-async function submitAssessment() {
+function showEmailCapture() { show("email"); }
+
+async function submitAssessment(email) {
+  capturedEmail = email || "";
   show("loading");
   startLoadingAnimation();
 
@@ -910,7 +929,7 @@ async function submitAssessment() {
     const res = await fetch("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: formatted, useCase, problem }),
+      body: JSON.stringify({ answers: formatted, useCase, problem, email: capturedEmail }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Request failed");
@@ -919,7 +938,7 @@ async function submitAssessment() {
     show("results");
   } catch(e) {
     stopLoadingAnimation();
-    show("freetext");
+    show("email");
     alert("Something went wrong generating your profile. Please try again.");
   }
 }

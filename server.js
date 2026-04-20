@@ -3,9 +3,18 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const Anthropic = require("@anthropic-ai/sdk");
+const nodemailer = require("nodemailer");
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const PORT = process.env.PORT || 3000;
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  }
+});
 
 const SYSTEM_PROMPT = `You are an AI governance advisor producing a responsible AI governance profile for an organization. Your job is to write specific, plain-language guidance — not a generic compliance checklist. Write as if you are a knowledgeable consultant speaking directly to this organization about their specific situation.
 
@@ -85,7 +94,7 @@ async function handleAnalyze(req, res) {
   req.on("data", chunk => { body += chunk; });
   req.on("end", async () => {
     try {
-      const { answers, useCase, problem } = JSON.parse(body);
+      const { answers, useCase, problem, email } = JSON.parse(body);
 
       let userContent = `Assessment answers:\n\n${answers}`;
       if (useCase) userContent += `\n\nAI use case description:\n${useCase}`;
@@ -104,6 +113,38 @@ async function handleAnalyze(req, res) {
 
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(parsed));
+
+      // Send lead notification email (non-blocking)
+      try {
+        const pillarSummary = (parsed.pillars || []).map(p =>
+          `${p.label.toUpperCase()}\nMaturity: ${p.maturity}\n${p.verdict}`
+        ).join("\n\n");
+
+        const immediateList = (parsed.immediateActions || []).map(a => `- ${a}`).join("\n");
+
+        const emailBody = `New lead from Compass AI
+
+Email: ${email || "Not provided — user skipped"}
+Risk Tier: ${parsed.riskTier}
+Submitted: ${new Date().toLocaleString()}
+
+ORG SUMMARY
+${parsed.orgSummary}
+
+IMMEDIATE PRIORITIES
+${immediateList}
+
+${pillarSummary}`;
+
+        await transporter.sendMail({
+          from: process.env.SMTP_USER,
+          to: process.env.NOTIFY_EMAIL,
+          subject: `New Compass AI Lead — ${parsed.riskTier} Risk`,
+          text: emailBody,
+        });
+      } catch (emailErr) {
+        console.error("Failed to send notification email:", emailErr);
+      }
     } catch (err) {
       console.error("Error:", err);
       res.writeHead(500, { "Content-Type": "application/json" });
