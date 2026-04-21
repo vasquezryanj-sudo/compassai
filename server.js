@@ -137,7 +137,7 @@ ${pillarSummary}`;
 
         console.log('Attempting email send via Resend');
         await resend.emails.send({
-          from: 'Compass AI <onboarding@resend.dev>',
+          from: 'Compass AI <ryan@withprovenance.org>',
           to: process.env.NOTIFY_EMAIL,
           subject: `New Compass AI Lead — ${parsed.riskTier} Risk`,
           text: emailBody,
