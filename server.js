@@ -3,18 +3,11 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const Anthropic = require("@anthropic-ai/sdk");
-const nodemailer = require("nodemailer");
+const { Resend } = require('resend');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const resend = new Resend(process.env.RESEND_API_KEY);
 const PORT = process.env.PORT || 3000;
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  }
-});
 
 const SYSTEM_PROMPT = `You are an AI governance advisor producing a responsible AI governance profile for an organization. Your job is to write specific, plain-language guidance — not a generic compliance checklist. Write as if you are a knowledgeable consultant speaking directly to this organization about their specific situation.
 
@@ -136,14 +129,16 @@ ${immediateList}
 
 ${pillarSummary}`;
 
-        await transporter.sendMail({
-          from: process.env.SMTP_USER,
+        console.log('Attempting email send via Resend');
+        await resend.emails.send({
+          from: 'Compass AI <onboarding@resend.dev>',
           to: process.env.NOTIFY_EMAIL,
           subject: `New Compass AI Lead — ${parsed.riskTier} Risk`,
           text: emailBody,
         });
+        console.log('Email sent successfully');
       } catch (emailErr) {
-        console.error("Failed to send notification email:", emailErr);
+        console.error('Email send failed:', emailErr.message);
       }
     } catch (err) {
       console.error("Error:", err);
