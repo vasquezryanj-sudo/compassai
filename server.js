@@ -121,6 +121,12 @@ Email: ${email || "Not provided — user skipped"}
 Risk Tier: ${parsed.riskTier}
 Submitted: ${new Date().toLocaleString()}
 
+AI USE CASE (user submitted)
+${useCase || "Not provided"}
+
+PROBLEM THEY ARE SOLVING (user submitted)
+${problem || "Not provided"}
+
 ORG SUMMARY
 ${parsed.orgSummary}
 
