@@ -104,10 +104,7 @@ async function handleAnalyze(req, res) {
       const cleaned = raw.replace(/^```json\s*/i, "").replace(/```$/i, "").trim();
       const parsed = JSON.parse(cleaned);
 
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(parsed));
-
-      // Send lead notification email (non-blocking)
+      // Send lead notification email before responding
       try {
         const pillarSummary = (parsed.pillars || []).map(p =>
           `${p.label.toUpperCase()}\nMaturity: ${p.maturity}\n${p.verdict}`
@@ -146,6 +143,9 @@ ${pillarSummary}`;
       } catch (emailErr) {
         console.error('Email send failed:', emailErr.message);
       }
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(parsed));
     } catch (err) {
       console.error("Error:", err);
       res.writeHead(500, { "Content-Type": "application/json" });
