@@ -321,9 +321,9 @@ textarea::placeholder { color: var(--dim); }
 .pillar-cta {
   margin-top: 1rem;
   padding: 0.85rem 1rem;
-  border-left: 2px solid rgba(196,98,45,0.4);
+  border-left: none;
   background: rgba(196,98,45,0.04);
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
 }
 .pillar-cta-text { font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.5rem; }
 .pillar-cta a {
@@ -337,9 +337,7 @@ textarea::placeholder { color: var(--dim); }
 
 /* Jurisdictional note */
 .juris-section { margin: 1rem 0; }
-.juris-item { margin-bottom: 0.5rem; line-height: 1.65; }
-.juris-jurisdiction { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--terra); font-weight: 700; }
-.juris-note { font-size: 0.83rem; color: var(--muted); font-weight: 300; }
+.juris-note { font-size: 0.83rem; color: var(--muted); line-height: 1.75; font-weight: 300; }
 .juris-note strong { color: var(--text); font-weight: 600; }
 
 /* Consult box */
@@ -545,10 +543,11 @@ textarea::placeholder { color: var(--dim); }
   }
 
   /* Recommendations */
+  .rec-list { gap: 0 !important; }
   .rec-item {
     background: none !important;
     color: #374151 !important;
-    padding: 0.3rem 0.75rem !important;
+    padding: 0.15rem 0.75rem !important;
   }
   .rec-bullet { color: #c4622d !important; }
 
@@ -563,10 +562,11 @@ textarea::placeholder { color: var(--dim); }
     color: #c4622d !important;
     font-size: 0.62rem !important;
   }
+  .pillar-cta .rec-list { gap: 0 !important; }
   .pillar-cta .rec-item {
     background: none !important;
     color: #374151 !important;
-    padding: 0.3rem 0.75rem !important;
+    padding: 0.15rem 0.75rem !important;
   }
   .pillar-cta-text {
     font-size: 0.78rem !important;
@@ -577,22 +577,11 @@ textarea::placeholder { color: var(--dim); }
   .divider { background: #f0e8e0 !important; }
 
   /* Jurisdictional notes */
-  .juris-item {
-    margin-bottom: 0.35rem !important;
-  }
-  .juris-jurisdiction {
-    color: #1a1a1a !important;
-    font-size: 0.82rem !important;
-    text-transform: none !important;
-    letter-spacing: 0 !important;
-    font-weight: 600 !important;
-    display: inline !important;
-  }
   .juris-note {
     font-size: 0.82rem !important;
     color: #4a5568 !important;
     font-weight: 300 !important;
-    display: inline !important;
+    line-height: 1.75 !important;
   }
   .juris-note strong {
     font-weight: 700 !important;
@@ -1049,10 +1038,12 @@ function renderResults(data) {
   // Jurisdictional note
   const juris = document.getElementById("juris-section");
   juris.innerHTML = "";
-  (data.jurisdictionalNote || []).forEach(j => {
-    const noteHtml = j.note.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    juris.innerHTML += `<div class="juris-item"><span class="juris-jurisdiction">${j.jurisdiction}:</span> <span class="juris-note">${noteHtml}</span></div>`;
+  const jurisSentences = (data.jurisdictionalNote || []).map(j => {
+    return j.note.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   });
+  if (jurisSentences.length) {
+    juris.innerHTML = `<p class="juris-note">${jurisSentences.join(" ")}</p>`;
+  }
 }
 
 function togglePillar(id) {
