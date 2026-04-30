@@ -369,8 +369,8 @@ textarea::placeholder { color: var(--dim); }
   margin: 1rem 0;
 }
 
-/* Print header & footer (hidden on screen) */
-.print-header, .print-footer { display: none; }
+/* Print header, footer, consult heading (hidden on screen) */
+.print-header, .print-footer, .print-consult-heading { display: none; }
 
 .app-footer {
   margin-top: 2rem;
@@ -639,6 +639,17 @@ textarea::placeholder { color: var(--dim); }
     padding-left: 0 !important;
     padding-top: 1rem !important;
   }
+
+  /* Print consult heading */
+  .print-consult-heading {
+    display: block !important;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+    margin: 1rem 0;
+  }
 }
 </style>
 </head>
@@ -781,8 +792,9 @@ textarea::placeholder { color: var(--dim); }
     <div class="q-label" style="margin-bottom:0.6rem;">Jurisdictional Context</div>
     <div class="juris-section" id="juris-section"></div>
 
-    <div style="text-align:center;margin:1.75rem 0;">
-      <a href="mailto:ryan@withprovenance.org" class="btn-primary" style="display:inline-block;text-decoration:none;">Schedule a Consultation</a>
+    <div class="consult-cta-wrap" style="text-align:center;margin:1.75rem 0;">
+      <a href="mailto:ryan@withprovenance.org" class="btn-primary screen-only" style="display:inline-block;text-decoration:none;">Schedule a Consultation</a>
+      <div class="print-consult-heading">Ready to turn this profile into a governance program? Get in touch below.</div>
     </div>
 
     <div class="consult-box">
@@ -808,7 +820,7 @@ textarea::placeholder { color: var(--dim); }
 
   </div>
 
-  <div class="app-footer">created by <a href="https://provenance.org" target="_blank" style="color:var(--terra);text-decoration:none;">Provenance</a></div>
+  <div class="app-footer">created by <a href="https://withprovenance.org" target="_blank" style="color:var(--terra);text-decoration:none;">Provenance</a></div>
 
 </div>
 
