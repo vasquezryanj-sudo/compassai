@@ -13,14 +13,14 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f0e8dc;
-  --bg-dark: #1a1108;
-  --card-bg: #faf7f4;
-  --card-border: rgba(26,17,8,0.1);
+  --bg: #1a1108;
+  --card-bg: #f0e8dc;
+  --card-border: rgba(196,98,45,0.18);
   --terra: #c4622d;
   --terra-light: #d4784a;
-  --terra-pale: rgba(196,98,45,0.08);
+  --terra-pale: rgba(196,98,45,0.10);
   --text: #2a1f14;
+  --text-on-dark: #f0e8dc;
   --muted: #6b5a4a;
   --dim: #9a8878;
   --border: rgba(26,17,8,0.1);
@@ -50,7 +50,7 @@ body::before {
   width: 280px;
   height: 280px;
   background: url('/compass_rose.png') center/contain no-repeat;
-  opacity: 0.05;
+  opacity: 0.07;
   pointer-events: none;
   z-index: 0;
 }
@@ -68,7 +68,7 @@ body::before {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(26,17,8,0.08), 0 1px 4px rgba(26,17,8,0.04);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 720px;
   padding: 3rem 3.5rem;
@@ -344,8 +344,8 @@ textarea::placeholder { color: var(--dim); }
 
 /* Consult box */
 .consult-box {
-  background: linear-gradient(135deg, rgba(196,98,45,0.06), rgba(26,17,8,0.03));
-  border: 1px solid rgba(196,98,45,0.2);
+  background: linear-gradient(135deg, rgba(196,98,45,0.06), rgba(26,17,8,0.02));
+  border: 1px solid rgba(196,98,45,0.22);
   border-radius: 12px;
   padding: 1.5rem 1.6rem;
   margin-top: 1.75rem;
@@ -376,10 +376,11 @@ textarea::placeholder { color: var(--dim); }
   margin-top: 2rem;
   padding: 1rem 0;
   font-size: 0.72rem;
-  color: var(--dim);
+  color: rgba(240,232,220,0.4);
   letter-spacing: 0.04em;
   text-align: center;
 }
+.app-footer a { color: var(--terra-light) !important; }
 
 /* Print */
 @media print {
