@@ -365,55 +365,24 @@ textarea::placeholder { color: var(--dim); }
   animation: riskPulse 2.5s ease-in-out infinite;
 }
 
-/* Readiness Report card */
-.readiness-card {
-  background: rgba(196,98,45,0.06);
-  border-left: 3px solid var(--terra);
+/* Risk callout bar */
+.risk-callout {
+  border: 2px solid var(--terra);
+  background: rgba(196,98,45,0.05);
   border-radius: 8px;
-  padding: 1.4rem 1.5rem;
+  padding: 0.75rem 1.1rem;
   margin: 1.75rem 0;
-}
-.readiness-label {
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--terra);
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-.readiness-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0.6rem;
-}
-.readiness-body {
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   color: var(--muted);
-  line-height: 1.75;
-  font-weight: 300;
-  margin-bottom: 0.75rem;
-}
-.readiness-urgency {
-  font-size: 0.82rem;
-  color: #9a4a1a;
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-}
-.readiness-pricing {
-  font-size: 0.75rem;
-  color: var(--dim);
-  margin-bottom: 1rem;
+  line-height: 1.6;
   font-weight: 300;
 }
-.readiness-pricing span { margin: 0 0.3rem; color: rgba(154,136,120,0.5); }
 
 .action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
 
 
 /* Print header, footer, consult heading (hidden on screen) */
-.print-header, .print-footer, .print-consult-heading { display: none; }
+.print-header, .print-footer { display: none; }
 
 .app-footer {
   margin-top: 2rem;
@@ -664,27 +633,12 @@ textarea::placeholder { color: var(--dim); }
   .consult-email a { color: #c4622d !important; }
 
 
-  /* Readiness card */
-  .readiness-card {
-    background: rgba(196,98,45,0.04) !important;
-    border-left: 3px solid #c4622d !important;
+  /* Risk callout bar */
+  .risk-callout {
+    border: 2px solid #c4622d !important;
+    background: rgba(196,98,45,0.03) !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
-  .readiness-card .btn-primary { display: none !important; }
-  .readiness-title { font-size: 1rem !important; color: #1a1a1a !important; }
-  .readiness-body { font-size: 0.82rem !important; color: #4a5568 !important; }
-  .readiness-pricing { font-size: 0.72rem !important; }
-
-  /* Print consult heading */
-  .print-consult-heading {
-    display: block !important;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    text-align: center;
-    margin: 1rem 0;
   }
 }
 </style>
@@ -826,15 +780,10 @@ textarea::placeholder { color: var(--dim); }
     <div class="q-label" style="margin-bottom:0.6rem;">Jurisdictional Context</div>
     <div class="juris-section" id="juris-section"></div>
 
-    <div id="readiness-report"></div>
-
-    <div class="consult-cta-wrap" id="consult-cta-wrap" style="text-align:center;margin:1.75rem 0;">
-      <a href="mailto:ryan@withprovenance.org" id="consult-cta-btn" class="btn-primary screen-only" style="display:inline-block;text-decoration:none;">Schedule a Consultation</a>
-      <div class="print-consult-heading">Ready to turn this profile into a governance program? Get in touch below.</div>
-    </div>
+    <div id="risk-callout"></div>
 
     <div class="consult-box">
-      <div class="consult-title">Work with Provenance directly.</div>
+      <div class="consult-title">Work with Provenance.</div>
       <p class="consult-body">The Governance Readiness Report is the starting point. From there, Provenance offers a full range of governance services — from one-time policy development to ongoing advisory retainers — designed around your organization's specific situation and the people your AI affects.</p>
       <div class="consult-name">Ryan Vasquez</div>
       <div class="consult-credential">AI Governance Professional (IAPP certified)</div>
@@ -843,8 +792,8 @@ textarea::placeholder { color: var(--dim); }
     </div>
 
     <div class="action-row">
-      <button class="btn-primary" onclick="window.print()">Save as PDF</button>
-      <button class="btn-ghost" onclick="restart()">Start Over</button>
+      <a href="mailto:ryan@withprovenance.org?subject=Getting%20Started%20with%20Provenance" class="btn-primary" style="text-decoration:none;display:inline-block;">Get Started</a>
+      <button class="btn-ghost" onclick="window.print()">Save as PDF</button>
     </div>
 
     <!-- Print footer (hidden on screen) -->
@@ -1111,29 +1060,15 @@ function renderResults(data) {
     juris.innerHTML = `<p class="juris-note">${jurisSentences.join(" ")}</p>`;
   }
 
-  // Readiness Report block
-  const rrWrap = document.getElementById("readiness-report");
-  const urgencyLine = isUrgent
-    ? `<div class="readiness-urgency">Given your risk profile, we recommend completing this report before expanding your AI deployment.</div>`
-    : "";
-  rrWrap.innerHTML = `<div class="readiness-card">
-    <div class="readiness-label">Next Step</div>
-    <div class="readiness-title">Governance Readiness Report</div>
-    <div class="readiness-body">${data.readinessReportCTA || ""}</div>
-    ${urgencyLine}
-    <div class="readiness-pricing">Flat fee — $750<span>·</span>Delivered in 5 business days<span>·</span>No ongoing commitment</div>
-    <a href="mailto:ryan@withprovenance.org?subject=Governance%20Readiness%20Report%20Request" class="btn-primary" style="display:inline-block;text-decoration:none;font-size:0.75rem;padding:0.75rem 1.75rem;">Request Your Report</a>
-  </div>`;
-
-  // Risk-tiered consult CTA
-  const consultBtn = document.getElementById("consult-cta-btn");
-  if (isUrgent) {
-    consultBtn.textContent = "Schedule an Urgent Consultation";
-    consultBtn.className = "btn-primary screen-only";
-  } else {
-    consultBtn.textContent = "Schedule a Consultation";
-    consultBtn.className = "btn-ghost screen-only";
-  }
+  // Risk callout bar
+  const calloutLines = {
+    Critical: "Given your risk profile, we recommend completing a Governance Readiness Report before expanding your AI deployment.",
+    High: "Given your risk profile, we recommend completing a Governance Readiness Report before expanding your AI deployment.",
+    Moderate: "Given your risk profile, a Governance Readiness Report would help you build on your existing foundation.",
+    Low: "A Governance Readiness Report can help you document and formalize the strong posture you are building."
+  };
+  document.getElementById("risk-callout").innerHTML =
+    `<div class="risk-callout">${calloutLines[data.riskTier] || calloutLines.Moderate}</div>`;
 }
 
 function togglePillar(id) {
@@ -1141,12 +1076,6 @@ function togglePillar(id) {
   el.classList.toggle("open");
 }
 
-function restart() {
-  answers = {}; currentQ = 0;
-  document.getElementById("use-case").value = "";
-  document.getElementById("problem").value = "";
-  show("intro");
-}
 </script>
 </body>
 </html>
