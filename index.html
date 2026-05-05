@@ -355,6 +355,60 @@ textarea::placeholder { color: var(--dim); }
 .consult-email a { font-size: 0.84rem; color: var(--terra); text-decoration: none; }
 .consult-email a:hover { text-decoration: underline; }
 
+/* Pulsing badge for High/Critical */
+@keyframes riskPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(153,27,27,0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(153,27,27,0); }
+}
+.risk-badge.risk-urgent {
+  font-size: 0.74rem;
+  animation: riskPulse 2.5s ease-in-out infinite;
+}
+
+/* Readiness Report card */
+.readiness-card {
+  background: rgba(196,98,45,0.06);
+  border-left: 3px solid var(--terra);
+  border-radius: 8px;
+  padding: 1.4rem 1.5rem;
+  margin: 1.75rem 0;
+}
+.readiness-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--terra);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.readiness-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.readiness-body {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+}
+.readiness-urgency {
+  font-size: 0.82rem;
+  color: #9a4a1a;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.readiness-pricing {
+  font-size: 0.75rem;
+  color: var(--dim);
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+.readiness-pricing span { margin: 0 0.3rem; color: rgba(154,136,120,0.5); }
+
 .action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
 
 
@@ -610,6 +664,18 @@ textarea::placeholder { color: var(--dim); }
   .consult-email a { color: #c4622d !important; }
 
 
+  /* Readiness card */
+  .readiness-card {
+    background: rgba(196,98,45,0.04) !important;
+    border-left: 3px solid #c4622d !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .readiness-card .btn-primary { display: none !important; }
+  .readiness-title { font-size: 1rem !important; color: #1a1a1a !important; }
+  .readiness-body { font-size: 0.82rem !important; color: #4a5568 !important; }
+  .readiness-pricing { font-size: 0.72rem !important; }
+
   /* Print consult heading */
   .print-consult-heading {
     display: block !important;
@@ -760,14 +826,16 @@ textarea::placeholder { color: var(--dim); }
     <div class="q-label" style="margin-bottom:0.6rem;">Jurisdictional Context</div>
     <div class="juris-section" id="juris-section"></div>
 
-    <div class="consult-cta-wrap" style="text-align:center;margin:1.75rem 0;">
-      <a href="mailto:ryan@withprovenance.org" class="btn-primary screen-only" style="display:inline-block;text-decoration:none;">Schedule a Consultation</a>
+    <div id="readiness-report"></div>
+
+    <div class="consult-cta-wrap" id="consult-cta-wrap" style="text-align:center;margin:1.75rem 0;">
+      <a href="mailto:ryan@withprovenance.org" id="consult-cta-btn" class="btn-primary screen-only" style="display:inline-block;text-decoration:none;">Schedule a Consultation</a>
       <div class="print-consult-heading">Ready to turn this profile into a governance program? Get in touch below.</div>
     </div>
 
     <div class="consult-box">
-      <div class="consult-title">Take the next step with expert guidance.</div>
-      <p class="consult-body">This profile gives you a clear picture of where your organization stands. Translating it into a governance program that actually protects your organization and the people you serve takes expertise. Provenance can help.</p>
+      <div class="consult-title">Work with Provenance directly.</div>
+      <p class="consult-body">The Governance Readiness Report is the starting point. From there, Provenance offers a full range of governance services — from one-time policy development to ongoing advisory retainers — designed around your organization's specific situation and the people your AI affects.</p>
       <div class="consult-name">Ryan Vasquez</div>
       <div class="consult-credential">AI Governance Professional (IAPP certified)</div>
       <div class="consult-credential">MA in Technology and Ethics, Fordham University</div>
@@ -957,10 +1025,18 @@ function renderResults(data) {
   // Risk badge
   const rc = riskColors[data.riskTier] || riskColors.Moderate;
   const badge = document.getElementById("risk-badge");
-  badge.textContent = `${data.riskTier} Risk`;
+  const isUrgent = data.riskTier === "High" || data.riskTier === "Critical";
+  const badgeLabels = {
+    Low: "Low Risk Profile",
+    Moderate: "Moderate Risk Profile",
+    High: "High Risk — Action Required",
+    Critical: "Critical Risk — Immediate Action Required"
+  };
+  badge.textContent = badgeLabels[data.riskTier] || `${data.riskTier} Risk`;
   badge.style.color = rc.color;
   badge.style.background = rc.bg;
   badge.style.borderColor = rc.border;
+  badge.classList.toggle("risk-urgent", isUrgent);
 
   // Org summary
   document.getElementById("org-summary").textContent = data.orgSummary || "";
@@ -985,10 +1061,21 @@ function renderResults(data) {
     ).join("");
 
     let cta = "";
+    const serviceNames = [
+      "AI Transparency and Disclosure Design","AI Fluency Training",
+      "Equity and Harm Assessment","AI Ethics Advisory Retainer",
+      "Privacy and Data Governance Policy","Vendor Accountability Review",
+      "AI Governance Framework","AI Ethics Officer Advisory",
+      "Incident Response and Change Control Design"
+    ];
     if (p.ctaText && typeof p.ctaText === "object") {
-      const ctaItems = (p.ctaText.items || []).map(item =>
-        `<div class="rec-item"><span class="rec-bullet">&#9670;</span><span>${item}</span></div>`
-      ).join("");
+      const ctaItems = (p.ctaText.items || []).map(item => {
+        let formatted = item;
+        serviceNames.forEach(name => {
+          formatted = formatted.replace(new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'g'), `<strong>${name}</strong>`);
+        });
+        return `<div class="rec-item"><span class="rec-bullet">&#9670;</span><span>${formatted}</span></div>`;
+      }).join("");
       cta = `<div class="pillar-cta"><div class="pillar-section-label" style="margin-top:0;">${p.ctaText.intro || "A full governance engagement would include:"}</div><div class="rec-list">${ctaItems}</div></div>`;
     } else if (p.ctaText) {
       cta = `<div class="pillar-cta"><div class="pillar-cta-text">${p.ctaText}</div></div>`;
@@ -1022,6 +1109,30 @@ function renderResults(data) {
   });
   if (jurisSentences.length) {
     juris.innerHTML = `<p class="juris-note">${jurisSentences.join(" ")}</p>`;
+  }
+
+  // Readiness Report block
+  const rrWrap = document.getElementById("readiness-report");
+  const urgencyLine = isUrgent
+    ? `<div class="readiness-urgency">Given your risk profile, we recommend completing this report before expanding your AI deployment.</div>`
+    : "";
+  rrWrap.innerHTML = `<div class="readiness-card">
+    <div class="readiness-label">Next Step</div>
+    <div class="readiness-title">Governance Readiness Report</div>
+    <div class="readiness-body">${data.readinessReportCTA || ""}</div>
+    ${urgencyLine}
+    <div class="readiness-pricing">Flat fee — $750<span>·</span>Delivered in 5 business days<span>·</span>No ongoing commitment</div>
+    <a href="mailto:ryan@withprovenance.org?subject=Governance%20Readiness%20Report%20Request" class="btn-primary" style="display:inline-block;text-decoration:none;font-size:0.75rem;padding:0.75rem 1.75rem;">Request Your Report</a>
+  </div>`;
+
+  // Risk-tiered consult CTA
+  const consultBtn = document.getElementById("consult-cta-btn");
+  if (isUrgent) {
+    consultBtn.textContent = "Schedule an Urgent Consultation";
+    consultBtn.className = "btn-primary screen-only";
+  } else {
+    consultBtn.textContent = "Schedule a Consultation";
+    consultBtn.className = "btn-ghost screen-only";
   }
 }
 

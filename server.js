@@ -61,6 +61,37 @@ Staging environments, version control, and rollback capability are baseline requ
 The Provenance position: good engineering is necessary but not sufficient. A technically excellent system with no failure plan is still a governance gap.
 
 END OF PROVENANCE FRAMEWORK
+
+PROVENANCE SERVICE MAPPING
+When generating ctaText for each pillar, map the organization's specific gaps to the following Provenance service offerings. Reference these by name in the ctaText items so the connection between their gap and the available solution is explicit.
+Transparency pillar gaps map to:
+- AI Transparency and Disclosure Design (a service where Provenance designs the organization's stakeholder-specific transparency layer, including user-facing disclosures, feedback mechanisms, and staff guidance)
+- AI Fluency Training (building internal literacy so staff can communicate about AI responsibly and accurately)
+
+Fairness and Harm Reduction pillar gaps map to:
+- Equity and Harm Assessment (a structured evaluation of how the organization's AI system performs across populations, with documented fairness posture and tradeoff analysis)
+- AI Ethics Advisory Retainer (ongoing Provenance involvement as the organization's anchor on fairness decisions as the product evolves)
+
+Privacy pillar gaps map to:
+- Privacy and Data Governance Policy (a complete privacy framework covering consent design, data minimization requirements, inferential privacy policy, and plain-language disclosure)
+- Vendor Accountability Review (mapping accountability between the organization and its AI vendors using the EU AI Act operator/provider structure)
+
+Explainability and Accountability pillar gaps map to:
+- AI Governance Framework (a full governance document covering decision logging requirements, black box disclosure, human oversight architecture, and named accountability)
+- AI Ethics Officer Advisory (Provenance serving as fractional ethics officer, providing the named human oversight the framework requires)
+- AI Ethics Advisory Retainer (ongoing involvement for organizations that need continuous accountability support)
+
+Robustness pillar gaps map to:
+- Incident Response and Change Control Design (documenting what happens when the system fails, who is responsible, and how changes are reviewed before going live)
+- AI Governance Framework (covering behavioral monitoring, security requirements, and staging environment standards)
+
+When the riskTier is High or Critical, the ctaText for each pillar should be noticeably more urgent in tone — not alarming, but clear that these gaps require attention before broader deployment or scaling.
+
+GOVERNANCE READINESS REPORT
+The Governance Readiness Report is a paid Provenance deliverable — a structured, detailed assessment of an organization's AI governance posture across all five pillars, including a documented fairness posture, a gap analysis with prioritized recommendations, a jurisdictional compliance map, and a 90-day action plan. It is the natural next step after a free Compass profile for any organization that wants more than a high-level snapshot.
+Price: $750 flat fee. Delivered within 5 business days. No ongoing commitment required.
+Include a readinessReportCTA field in the JSON output. This should be a 2-3 sentence plain-language pitch for the Governance Readiness Report, written specifically for this organization based on their risk tier and the gaps identified. It should feel like a natural next step, not a sales pitch. For High and Critical risk tiers, emphasize the urgency of getting a full picture before moving forward. For Low and Moderate tiers, emphasize that the report will help them build on what they are already doing well.
+
 Now, using this framework as your authoritative reference, analyze the organization's assessment answers and generate a governance profile in the following JSON structure. Every pillar verdict, recommendation, and ctaText must reflect the Provenance framework above — not generic AI governance advice.
 When writing verdicts: use conversational second-person tone, frame gaps as conditional risks, communicate urgency clearly when stakes are high, and always position the organization as capable of addressing them. No em dashes.
 When writing recommendations: be directional but not instructional. Surface the need without handing over the solution. The organization should understand what they need to address, not how to do it themselves.
@@ -71,6 +102,7 @@ Return only valid JSON, no preamble, no markdown, no code fences:
 {
   "orgSummary": "2-3 sentence synthesis specific to this org",
   "riskTier": "Low | Moderate | High | Critical",
+  "readinessReportCTA": "2-3 sentence pitch for the Governance Readiness Report specific to this org",
   "pillars": [
     {
       "id": "transparency",
@@ -81,9 +113,7 @@ Return only valid JSON, no preamble, no markdown, no code fences:
       "ctaText": {
         "intro": "A full governance engagement would include:",
         "items": [
-          "Design and implement X specific to your situation",
-          "Build Y that addresses your specific gaps",
-          "Establish Z tailored to your organization"
+          "Item that references a specific Provenance service by name"
         ]
       }
     },
@@ -137,7 +167,7 @@ async function handleAnalyze(req, res) {
 
       const message = await client.messages.create({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 2500,
+        max_tokens: 3500,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: userContent }],
       });
