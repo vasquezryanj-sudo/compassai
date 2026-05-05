@@ -408,7 +408,7 @@ textarea::placeholder { color: var(--dim); }
   gap: 0.75rem;
 }
 .service-card {
-  background: var(--terra);
+  background: #3a2a1a;
   border-radius: 12px;
   padding: 1.4rem 1.3rem;
   display: flex;
@@ -434,26 +434,6 @@ textarea::placeholder { color: var(--dim); }
   font-weight: 300;
   flex: 1;
 }
-.service-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  background: var(--card-bg);
-  color: var(--text);
-  border: none;
-  border-radius: 100px;
-  padding: 0.5rem 1.1rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  align-self: flex-start;
-  transition: opacity 0.2s;
-}
-.service-card-link:hover { opacity: 0.85; }
 @media (max-width: 640px) {
   .services-grid { grid-template-columns: 1fr; }
 }
@@ -728,7 +708,7 @@ textarea::placeholder { color: var(--dim); }
   .services-intro { color: #4a5568 !important; }
   .services-grid { gap: 0.5rem !important; }
   .service-card {
-    background: #c4622d !important;
+    background: #3a2a1a !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     padding: 1.1rem 1rem !important;
@@ -736,7 +716,6 @@ textarea::placeholder { color: var(--dim); }
   .service-card-name { color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .service-card-timeline { color: rgba(255,255,255,0.7) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .service-card-desc { color: rgba(255,255,255,0.88) !important; font-size: 0.74rem !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .service-card-link { display: none !important; }
 }
 </style>
 </head>
@@ -898,19 +877,16 @@ textarea::placeholder { color: var(--dim); }
           <div class="service-card-name">AI Risk Audit</div>
           <div class="service-card-timeline">2 to 3 weeks</div>
           <div class="service-card-desc">A structured assessment of your organization's AI posture across our five pillars of responsible governance. We surface gaps, assess risk against the frameworks applicable to your jurisdiction, and deliver a clear roadmap of prioritized next steps.</div>
-          <a href="mailto:ryan@withprovenance.org?subject=AI%20Risk%20Audit" class="service-card-link">Get Started <span>&rarr;</span></a>
         </div>
         <div class="service-card">
           <div class="service-card-name">Provenance Governance Framework</div>
           <div class="service-card-timeline">6 to 8 weeks</div>
           <div class="service-card-desc">Our most comprehensive offering. A complete governance infrastructure built for your organization across all five pillars: policies, data governance, human oversight controls, accountability structures, stress testing, and an implementation roadmap. Built to hold up under regulatory scrutiny and designed for the people who actually run your organization.</div>
-          <a href="mailto:ryan@withprovenance.org?subject=Provenance%20Governance%20Framework" class="service-card-link">Get Started <span>&rarr;</span></a>
         </div>
         <div class="service-card">
           <div class="service-card-name">Ongoing Oversight</div>
           <div class="service-card-timeline">Retainer agreement</div>
           <div class="service-card-desc">A continued partnership as your AI landscape evolves. Includes incident response, regulatory monitoring, periodic audits, and policy updates as new tools are adopted and requirements change. Because new challenges will arise, and you should not face them alone.</div>
-          <a href="mailto:ryan@withprovenance.org?subject=Ongoing%20Oversight" class="service-card-link">Get Started <span>&rarr;</span></a>
         </div>
       </div>
     </div>
