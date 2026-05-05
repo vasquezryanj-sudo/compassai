@@ -241,7 +241,7 @@ const server = http.createServer((req, res) => {
 
   if (req.method === "OPTIONS") { res.writeHead(200); res.end(); return; }
   if (req.method === "POST" && req.url === "/api/analyze") return handleAnalyze(req, res);
-  if (req.method === "GET" && (req.url === "/" || req.url === "/index.html")) {
+  if (req.method === "GET" && (req.url === "/" || req.url === "/index.html" || req.url === "/demo")) {
     return serveFile(res, path.join(__dirname, "index.html"), "text/html");
   }
   if (req.url === "/logo.png") return serveFile(res, path.join(__dirname, "logo.png"), "image/png");

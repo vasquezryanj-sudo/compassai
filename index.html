@@ -1200,6 +1200,124 @@ function togglePillar(id) {
   el.classList.toggle("open");
 }
 
+function loadDemo() {
+  const demo = {
+    orgSummary: "This is a mid-size healthcare technology company operating in the United States and European Union, using AI to generate clinical documentation and insurance pre-authorization recommendations from patient-clinician conversations. The system processes protected health information and directly affects patient care workflows, placing it squarely in the high-risk category across multiple regulatory frameworks.",
+    riskTier: "High",
+    pillars: [
+      {
+        id: "transparency",
+        label: "Transparency",
+        maturity: "needs_attention",
+        verdict: "If your AI system is generating clinical notes from patient conversations without clear, proactive disclosure to patients about what the system captures and how it is used, you may be creating significant trust and compliance exposure. Transparency in healthcare AI is not optional, it is foundational to the patient relationship.",
+        recommendations: [
+          "Evaluate whether patients currently understand that AI is involved in documenting their care",
+          "Consider how your transparency practices differ across stakeholder groups, including patients, clinicians, and administrative staff",
+          "Assess whether your current disclosures go beyond legal minimums to build genuine understanding"
+        ],
+        ctaText: {
+          intro: "A full governance engagement would include:",
+          items: [
+            "Design and implement a stakeholder-specific AI disclosure framework for patients, clinicians, and administrators",
+            "Build a transparency feedback loop so patients and staff can surface concerns about AI-generated outputs",
+            "Develop plain-language communication materials that explain how your AI system works in terms each audience can act on"
+          ]
+        }
+      },
+      {
+        id: "fairness",
+        label: "Fairness and Harm Reduction",
+        maturity: "developing",
+        verdict: "Your system touches clinical documentation across a diverse patient population, which means fairness is not abstract here. If the AI performs differently across demographics, dialects, or clinical specialties, the downstream effects land on real patients and the clinicians who rely on those notes.",
+        recommendations: [
+          "Assess how your AI system performs across different patient populations and clinical contexts",
+          "Consider whether your organization has taken an explicit position on what fairness means for your specific use case",
+          "Explore how accountability is shared between your organization and the AI vendor"
+        ],
+        ctaText: {
+          intro: "A full governance engagement would include:",
+          items: [
+            "Design and implement a bias and equity testing protocol across your specific user demographics",
+            "Build a documented fairness position that names the tradeoffs your organization is making and why",
+            "Establish a shared accountability framework between your organization and your AI vendor"
+          ]
+        }
+      },
+      {
+        id: "explainability",
+        label: "Explainability and Accountability",
+        maturity: "needs_attention",
+        verdict: "If clinicians are signing off on AI-generated notes without a clear process for reviewing what the model inferred versus what was explicitly stated, you may be creating an accountability gap that exposes both the organization and individual practitioners. Human oversight in clinical AI is not a suggestion, it is a professional and legal obligation.",
+        recommendations: [
+          "Evaluate whether your clinicians have a structured process for reviewing AI outputs before they become part of the medical record",
+          "Consider how your organization would explain an AI-generated error if it affected a patient outcome",
+          "Assess whether there is clear ownership of AI governance decisions at the leadership level"
+        ],
+        ctaText: {
+          intro: "A full governance engagement would include:",
+          items: [
+            "Design and implement a human oversight protocol with documented review and attestation workflows",
+            "Build an incident response framework for AI-related errors in clinical documentation",
+            "Establish clear governance ownership with defined roles and escalation paths"
+          ]
+        }
+      },
+      {
+        id: "privacy",
+        label: "Privacy",
+        maturity: "developing",
+        verdict: "Processing patient conversation data through AI systems creates layered privacy obligations under both HIPAA and GDPR. If your data flows, retention policies, or consent mechanisms have not been specifically designed for AI-mediated processing, you may be carrying more risk than you realize.",
+        recommendations: [
+          "Review how patient data flows through your AI system and whether each step has appropriate legal basis",
+          "Evaluate whether your consent mechanisms address AI-specific processing, not just general data collection",
+          "Consider what inferences your system makes about patients and whether those inferences are appropriate"
+        ],
+        ctaText: {
+          intro: "A full governance engagement would include:",
+          items: [
+            "Conduct a comprehensive data flow mapping and privacy impact assessment for your AI pipeline",
+            "Develop an AI-specific consent framework that addresses both HIPAA and GDPR requirements",
+            "Create an inferential privacy policy that governs what conclusions your system is permitted to draw"
+          ]
+        }
+      },
+      {
+        id: "robustness",
+        label: "Robustness",
+        maturity: "strong",
+        verdict: "Your organization appears to have invested in system reliability and performance monitoring. The key question going forward is whether your robustness practices scale as you expand into new clinical specialties or jurisdictions, and whether your failure modes are documented and rehearsed.",
+        recommendations: [
+          "Consider how your system would perform if deployed in clinical contexts it was not originally designed for",
+          "Evaluate whether your team has rehearsed failure scenarios specific to AI-generated clinical documentation",
+          "Assess whether your monitoring captures edge cases and degradation patterns over time"
+        ],
+        ctaText: {
+          intro: "A full governance engagement would include:",
+          items: [
+            "Design and implement stress testing protocols tailored to your specific clinical use cases",
+            "Build a failure mode catalog with documented response procedures for each scenario",
+            "Establish ongoing performance monitoring with drift detection and alerting"
+          ]
+        }
+      }
+    ],
+    jurisdictionalNote: [
+      { jurisdiction: "United States", note: "As a healthcare AI system processing protected health information, your obligations under **HIPAA** extend to how AI handles, stores, and transmits patient data, and the **HHS AI Action Plan** signals increased federal scrutiny of AI in clinical settings." },
+      { jurisdiction: "European Union", note: "Clinical documentation AI is likely to be classified as high-risk under the **EU AI Act**, triggering conformity assessment, transparency, and human oversight requirements before market deployment." }
+    ],
+    immediateActions: [
+      "Implement proactive patient-facing disclosure that AI is involved in documenting their clinical encounters",
+      "Establish a formal clinician review and attestation workflow for all AI-generated clinical notes before they enter the medical record"
+    ]
+  };
+  renderResults(demo);
+  show("results");
+}
+
+if (window.location.pathname === "/demo") {
+  loadDemo();
+}
+
 </script>
 </body>
 </html>
