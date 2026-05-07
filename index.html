@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compass AI — Responsible AI Governance</title>
+<title>Compass AI — TRACE Framework | Responsible AI Governance</title>
 <link rel="icon" type="image/png" href="/favicon.png">
-<meta name="description" content="Understand your AI governance obligations and responsibilities. Get a personalized governance profile across transparency, fairness, accountability, privacy, and robustness.">
-<meta property="og:title" content="Compass AI — Responsible AI Governance Assessment">
-<meta property="og:description" content="A governance profile built around responsible AI principles — not just compliance.">
+<meta name="description" content="Understand your AI governance obligations and responsibilities. Get a personalized governance profile built on the TRACE framework: transparency, robustness, accountability, compliant data governance, and ethics.">
+<meta property="og:title" content="Compass AI — TRACE Framework | Responsible AI Governance">
+<meta property="og:description" content="A governance profile built on the TRACE framework — Provenance's methodology for responsible AI governance.">
 <meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -733,7 +733,7 @@ textarea::placeholder { color: var(--dim); }
       AI is making decisions that affect real people every day. Most organizations deploying or using AI systems are doing so without a clear picture of whether they're doing it responsibly.
     </p>
     <p class="body-text">
-      Compass is built for organizations that want to get this right. Not just to stay compliant, but because the real people within and outside your organization deserve that commitment and care. Answer a short assessment and receive a governance profile built around the principles that matter most: transparency, fairness, accountability, privacy, and robustness.
+      Compass is built for organizations that want to get this right. Not just to stay compliant, but because the real people within and outside your organization deserve that commitment and care. Answer a short assessment and receive a governance profile built around the TRACE framework — Provenance's methodology for responsible AI: transparency, robustness, accountability, compliant data governance, and ethics.
     </p>
     <button class="btn-primary" onclick="startAssessment()">Begin Assessment</button>
   </div>
@@ -925,14 +925,13 @@ const QUESTIONS = [
 
 const LOADING_LINES = [
   "Reviewing your assessment answers...",
-  "Mapping your governance context...",
-  "Analyzing fairness and harm exposure...",
-  "Evaluating transparency posture...",
-  "Assessing accountability structure...",
-  "Identifying privacy obligations...",
-  "Reviewing robustness considerations...",
+  "Mapping your transparency posture...",
+  "Assessing robustness and reliability...",
+  "Evaluating accountability structures...",
+  "Reviewing data governance obligations...",
+  "Analyzing ethics and harm exposure...",
   "Matching jurisdictional frameworks...",
-  "Synthesizing your profile...",
+  "Synthesizing your TRACE profile...",
 ];
 
 let answers = {};
@@ -1201,27 +1200,27 @@ function loadDemo() {
         }
       },
       {
-        id: "fairness",
-        label: "Fairness and Harm Reduction",
-        maturity: "developing",
-        verdict: "Your system touches clinical documentation across a diverse patient population, which means fairness is not abstract here. If the AI performs differently across demographics, dialects, or clinical specialties, the downstream effects land on real patients and the clinicians who rely on those notes.",
+        id: "robustness",
+        label: "Robustness",
+        maturity: "strong",
+        verdict: "Your organization appears to have invested in system reliability and performance monitoring. The key question going forward is whether your robustness practices scale as you expand into new clinical specialties or jurisdictions, and whether your failure modes are documented and rehearsed.",
         recommendations: [
-          "Assess how your AI system performs across different patient populations and clinical contexts",
-          "Consider whether your organization has taken an explicit position on what fairness means for your specific use case",
-          "Explore how accountability is shared between your organization and the AI vendor"
+          "Consider how your system would perform if deployed in clinical contexts it was not originally designed for",
+          "Evaluate whether your team has rehearsed failure scenarios specific to AI-generated clinical documentation",
+          "Assess whether your monitoring captures edge cases and degradation patterns over time"
         ],
         ctaText: {
           intro: "A full governance engagement would include:",
           items: [
-            "Design and implement a bias and equity testing protocol across your specific user demographics",
-            "Build a documented fairness position that names the tradeoffs your organization is making and why",
-            "Establish a shared accountability framework between your organization and your AI vendor"
+            "Design and implement stress testing protocols tailored to your specific clinical use cases",
+            "Build a failure mode catalog with documented response procedures for each scenario",
+            "Establish ongoing performance monitoring with drift detection and alerting"
           ]
         }
       },
       {
-        id: "explainability",
-        label: "Explainability and Accountability",
+        id: "accountability",
+        label: "Accountability and Explainability",
         maturity: "needs_attention",
         verdict: "If clinicians are signing off on AI-generated notes without a clear process for reviewing what the model inferred versus what was explicitly stated, you may be creating an accountability gap that exposes both the organization and individual practitioners. Human oversight in clinical AI is not a suggestion, it is a professional and legal obligation.",
         recommendations: [
@@ -1239,10 +1238,10 @@ function loadDemo() {
         }
       },
       {
-        id: "privacy",
-        label: "Privacy",
+        id: "data",
+        label: "Compliant Data Governance",
         maturity: "developing",
-        verdict: "Processing patient conversation data through AI systems creates layered privacy obligations under both HIPAA and GDPR. If your data flows, retention policies, or consent mechanisms have not been specifically designed for AI-mediated processing, you may be carrying more risk than you realize.",
+        verdict: "Processing patient conversation data through AI systems creates layered data governance obligations under both HIPAA and GDPR. If your data flows, retention policies, or consent mechanisms have not been specifically designed for AI-mediated processing, you may be carrying more risk than you realize.",
         recommendations: [
           "Review how patient data flows through your AI system and whether each step has appropriate legal basis",
           "Evaluate whether your consent mechanisms address AI-specific processing, not just general data collection",
@@ -1258,21 +1257,21 @@ function loadDemo() {
         }
       },
       {
-        id: "robustness",
-        label: "Robustness",
-        maturity: "strong",
-        verdict: "Your organization appears to have invested in system reliability and performance monitoring. The key question going forward is whether your robustness practices scale as you expand into new clinical specialties or jurisdictions, and whether your failure modes are documented and rehearsed.",
+        id: "ethics",
+        label: "Ethics and Harm Reduction",
+        maturity: "developing",
+        verdict: "Your system touches clinical documentation across a diverse patient population, which means fairness is not abstract here. If the AI performs differently across demographics, dialects, or clinical specialties, the downstream effects land on real patients and the clinicians who rely on those notes.",
         recommendations: [
-          "Consider how your system would perform if deployed in clinical contexts it was not originally designed for",
-          "Evaluate whether your team has rehearsed failure scenarios specific to AI-generated clinical documentation",
-          "Assess whether your monitoring captures edge cases and degradation patterns over time"
+          "Assess how your AI system performs across different patient populations and clinical contexts",
+          "Consider whether your organization has taken an explicit position on what fairness means for your specific use case",
+          "Explore how accountability for harm is shared between your organization and the AI vendor"
         ],
         ctaText: {
           intro: "A full governance engagement would include:",
           items: [
-            "Design and implement stress testing protocols tailored to your specific clinical use cases",
-            "Build a failure mode catalog with documented response procedures for each scenario",
-            "Establish ongoing performance monitoring with drift detection and alerting"
+            "Conduct an Equity and Harm Assessment across your specific user demographics",
+            "Build a documented fairness position that names the tradeoffs your organization is making and why",
+            "Establish a shared accountability framework between your organization and your AI vendor"
           ]
         }
       }
